@@ -8,12 +8,18 @@ public class TrainMovement : MonoBehaviour
     public Transform inLocation, stationLocation, outLocation;
 
     private StateMachineEngine trainSM;
+    private MeshRenderer rend;
+
+    private void Awake()
+    {
+        rend = GetComponentInChildren<MeshRenderer>();
+    }
 
     private void Start()
     {
         trainSM = new StateMachineEngine();
 
-        Perception timer = trainSM.CreatePerception<TimerPerception>(3);
+        Perception timer = trainSM.CreatePerception<TimerPerception>(Random.Range(1, 5));
         Perception stationEntered = trainSM.CreatePerception<PushPerception>();
         Perception stationExited = trainSM.CreatePerception<PushPerception>();
 
@@ -21,10 +27,12 @@ public class TrainMovement : MonoBehaviour
         {
             timer.Reset();
             transform.position = inLocation.position;
+            rend.enabled = false;
         });
         State enterStation = trainSM.CreateState("EnterStation", () =>
         {
-            transform.DOMove(stationLocation.position, 1).SetEase(Ease.OutExpo).OnComplete(() =>
+            rend.enabled = true;
+            transform.DOMove(stationLocation.position, 3).SetEase(Ease.OutCubic).OnComplete(() =>
             {
                 trainSM.Fire(stationEntered);
             });
@@ -36,7 +44,7 @@ public class TrainMovement : MonoBehaviour
         });
         State exitStation = trainSM.CreateState("ExitStation", () =>
         {
-            transform.DOMove(outLocation.position, 1).SetEase(Ease.InExpo).OnComplete(() =>
+            transform.DOMove(outLocation.position, 3).SetEase(Ease.InCubic).OnComplete(() =>
             {
                 trainSM.Fire(stationExited);
             });
