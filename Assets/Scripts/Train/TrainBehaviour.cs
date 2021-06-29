@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrainMovement : MonoBehaviour
+public class TrainBehaviour : MonoBehaviour
 {
     public Transform inLocation, stationLocation, outLocation;
 
@@ -19,7 +19,7 @@ public class TrainMovement : MonoBehaviour
     {
         trainSM = new StateMachineEngine();
 
-        Perception timer = trainSM.CreatePerception<TimerPerception>(Random.Range(1, 5));
+        Perception timer = trainSM.CreatePerception<TimerPerception>(Random.Range(1f, 10f));
         Perception stationEntered = trainSM.CreatePerception<PushPerception>();
         Perception stationExited = trainSM.CreatePerception<PushPerception>();
 
