@@ -5,10 +5,10 @@ using UnityEngine;
 public class PassengerBehaviour : MonoBehaviour
 {
     private BehaviourTreeEngine passengerBT;
-
     private BasicMovement movement;
+
     public Platform CurrentPlatform;
-    public bool isReady;
+    public bool readyToBoard;
 
     private void Awake()
     {
@@ -19,11 +19,11 @@ public class PassengerBehaviour : MonoBehaviour
 
         mainSequence.AddChild(passengerBT.CreateLeafNode("MoveToDestination",
             () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
-            () => CurrentPlatform == null ? ReturnValues.Running : ReturnValues.Succeed));
+            () => CurrentPlatform is null ? ReturnValues.Running : ReturnValues.Succeed));
 
         mainSequence.AddChild(passengerBT.CreateLeafNode("WaitingForTrain",
             () => { },
-            () => isReady ? ReturnValues.Succeed : ReturnValues.Running));
+            () => readyToBoard ? ReturnValues.Succeed : ReturnValues.Running));
 
         mainSequence.AddChild(passengerBT.CreateLeafNode("EnterTrain",
             () => movement.SetDestination(CurrentPlatform.train.GetClosestEntrance(transform.position)),

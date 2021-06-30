@@ -9,11 +9,11 @@ public class TrainBehaviour : MonoBehaviour
     public Transform inLocation, stationLocation, outLocation;
     public GameObject entryPoints;
 
-    public Action OnArrival, OnDeparture;
+    public Action OnArrival;
 
     private StateMachineEngine trainSM;
     private MeshRenderer rend;
-    public int passengerCount;
+    public int passengersLeft;
 
     private void Awake()
     {
@@ -28,9 +28,7 @@ public class TrainBehaviour : MonoBehaviour
         Perception timer = trainSM.CreatePerception<TimerPerception>(UnityEngine.Random.Range(1f, 10f));
         Perception stationEntered = trainSM.CreatePerception<PushPerception>();
         Perception stationExited = trainSM.CreatePerception<PushPerception>();
-        Perception departureReady = trainSM.CreatePerception<ValuePerception>(() => passengerCount == 0);
-        Perception departureTimer = trainSM.CreatePerception<TimerPerception>(15);
-        Perception departurePerc = trainSM.CreateOrPerception<OrPerception>(departureReady, departureTimer);
+        Perception departureReady = trainSM.CreatePerception<ValuePerception>(() => passengersLeft == 0);
 
         State onTravel = trainSM.CreateEntryState("OnTravel", () =>
         {
@@ -49,15 +47,12 @@ public class TrainBehaviour : MonoBehaviour
         State onStation = trainSM.CreateState("OnStation", () =>
         {
             departureReady.Reset();
-            departureTimer.Reset();
             OnArrival?.Invoke();
             entryPoints.SetActive(true);
         });
         State exitStation = trainSM.CreateState("ExitStation", () =>
         {
             entryPoints.SetActive(false);
-            OnDeparture?.Invoke();
-
             transform.DOMove(outLocation.position, 3).SetEase(Ease.InCubic).OnComplete(() =>
             {
                 trainSM.Fire(stationExited);

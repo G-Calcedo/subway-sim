@@ -7,7 +7,7 @@ public class Platform : MonoBehaviour
     public TrainBehaviour train;
 
     private Collider platformCollider;
-    public List<PassengerBehaviour> passengers;
+    private List<PassengerBehaviour> passengers;
 
     private void Awake()
     {
@@ -16,12 +16,8 @@ public class Platform : MonoBehaviour
 
         train.OnArrival += () =>
         {
-            train.passengerCount = passengers.Count;
+            train.passengersLeft = passengers.Count;
             NotifyPassengers();
-        };
-        train.OnDeparture -= () =>
-        {
-            train.passengerCount = 0;
         };
     }
 
@@ -52,7 +48,7 @@ public class Platform : MonoBehaviour
     {
         foreach(PassengerBehaviour passenger in passengers)
         {
-            passenger.isReady = true;
+            passenger.readyToBoard = true;
         }
 
         passengers.Clear();

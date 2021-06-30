@@ -15,7 +15,7 @@ public class TrainEntrance : MonoBehaviour
     {
         if (other.CompareTag("Passenger"))
         {
-            train.passengerCount--;
+            train.passengersLeft--;
             Destroy(other.gameObject);
         }
     }
