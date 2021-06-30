@@ -2360,12 +2360,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658342406}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58cd65ea11f21484c8eeecebeb8ffd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 7688393281046716318, guid: 89cc5ad066d235743b281393889ef0e6, type: 3}
+  unitModels: []
   minSpawnRate: 0
   maxSpawnRate: 15
 --- !u!4 &658342409
@@ -2406,12 +2407,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669228475}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58cd65ea11f21484c8eeecebeb8ffd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 8018685896537079419, guid: 003183c0b107dca4aad1a36a755203a4, type: 3}
+  unitModels: []
   minSpawnRate: 0
   maxSpawnRate: 20
 --- !u!4 &669228478
@@ -6666,8 +6668,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 4574146127984340368, guid: aa4d9ec0daf63944f9e7ce53bf556ec5, type: 3}
-  minSpawnRate: 0.5
-  maxSpawnRate: 2
+  unitModels:
+  - {fileID: 919132149155446097, guid: 91b5c3afb0f730a4dbb52b76a46b2eb7, type: 3}
+  - {fileID: 919132149155446097, guid: 45bf117d669fd8f4692e20c50011f7fa, type: 3}
+  - {fileID: 919132149155446097, guid: 51bb2d40369b8cb41b71e43e4135d2ca, type: 3}
+  - {fileID: 919132149155446097, guid: 9a3ea729b3e3b764284bb90cb0f1c700, type: 3}
+  minSpawnRate: 0.2
+  maxSpawnRate: 0.5
 --- !u!4 &2118327037
 Transform:
   m_ObjectHideFlags: 0
