@@ -61,11 +61,13 @@ public class PassengerBehaviour : MonoBehaviour
             Debug.Log("Tirar basura");
         }
         else if (30 <= valueAction && valueAction < 50) { Debug.Log("Pegarse"); }
-        else {
+        else
+        {
             mainSequence.AddChild(passengerBT.CreateLeafNode("DoNothing",
             () => { },
             () => ReturnValues.Succeed));
-            Debug.Log("No hace nada"); }
+            Debug.Log("No hace nada");
+        }
 
 
 
