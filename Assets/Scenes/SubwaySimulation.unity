@@ -2170,7 +2170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 7688393281046716318, guid: 89cc5ad066d235743b281393889ef0e6, type: 3}
   minSpawnRate: 0
-  maxSpawnRate: 4
+  maxSpawnRate: 20
 --- !u!4 &658342409
 Transform:
   m_ObjectHideFlags: 0
