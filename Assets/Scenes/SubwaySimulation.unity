@@ -3077,6 +3077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0c92394880cb74fa63612a3ad0c6ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  receptionist: {fileID: 1303660446}
+  exit: {fileID: 0}
   platforms: {fileID: 288313376}
   _platforms: []
   ticketMachines: {fileID: 89602275}
@@ -6673,8 +6675,8 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 45bf117d669fd8f4692e20c50011f7fa, type: 3}
   - {fileID: 919132149155446097, guid: 51bb2d40369b8cb41b71e43e4135d2ca, type: 3}
   - {fileID: 919132149155446097, guid: 9a3ea729b3e3b764284bb90cb0f1c700, type: 3}
-  minSpawnRate: 0.2
-  maxSpawnRate: 0.5
+  minSpawnRate: 0.5
+  maxSpawnRate: 2
 --- !u!4 &2118327037
 Transform:
   m_ObjectHideFlags: 0

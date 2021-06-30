@@ -19,7 +19,6 @@ public class UnitSpawner : MonoBehaviour
         {
             GameObject spawnedUnit = Instantiate(unit, transform.position, Quaternion.identity);
             GameObject model = Instantiate(unitModels[UnityEngine.Random.Range(0, unitModels.Length)], spawnedUnit.transform);
-            //model.transform.localScale *= UnityEngine.Random.Range(1.5f, 3.5f);
             model.transform.localScale *= 2;
             //model.transform.parent = spawnedUnit.transform;
             OnUnitSpawned?.Invoke(spawnedUnit);
