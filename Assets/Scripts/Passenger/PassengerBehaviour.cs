@@ -17,6 +17,16 @@ public class PassengerBehaviour : MonoBehaviour
 
         SequenceNode mainSequence = passengerBT.CreateSequenceNode("MainSequence", false);
 
+        //mainSequence.AddChild(passengerBT.CreateLeafNode("BuyingTicket",
+        //    () => movement.SetDestination(SubwayStation.main.GetRandomTicketMachinePosition()),
+        //    () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+
+        //mainSequence.AddChild(passengerBT.CreateTimerNode("TicketDelay",
+        //    (passengerBT.CreateLeafNode("MoveToDestination",
+        //    () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
+        //    () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed)),
+        //    0.01f));
+
         mainSequence.AddChild(passengerBT.CreateLeafNode("MoveToDestination",
             () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
             () => CurrentPlatform is null ? ReturnValues.Running : ReturnValues.Succeed));
