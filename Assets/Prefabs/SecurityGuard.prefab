@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7855aec024aacf49b46c517a34b7c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wanderRadius: 1000
+  wanderRadius: 100000
   wanderTimer: 0.1
 --- !u!1001 &3560207635620272315
 PrefabInstance:
