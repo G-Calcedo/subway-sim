@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class BasicMovement : MonoBehaviour
 {
     private NavMeshAgent navegation;
+    private Vector3 target;
 
     private void Awake()
     {
@@ -14,6 +15,14 @@ public class BasicMovement : MonoBehaviour
 
     public void SetDestination(Vector3 target)
     {
+        this.target = target;
         navegation.SetDestination(target);
+    }
+
+    public bool IsMoving()
+    {
+        Vector3 a = new Vector3(target.x, 0, target.z);
+        Vector3 b = new Vector3(transform.position.x, 0, transform.position.z);
+        return a != b;
     }
 }
