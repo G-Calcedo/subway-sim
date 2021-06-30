@@ -6,6 +6,9 @@ public class SubwayStation : MonoBehaviour
 {
     public static SubwayStation main;
 
+    public Transform receptionist;
+    public Transform exit;
+
     public GameObject platforms;
     public Platform[] _platforms;
 

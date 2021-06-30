@@ -6,6 +6,7 @@ public class PassengerBehaviour : MonoBehaviour
 {
     private BehaviourTreeEngine passengerBT;
     private BasicMovement movement;
+    private float valueAction;
 
     public Platform CurrentPlatform;
     public bool readyToBoard;
@@ -14,18 +15,59 @@ public class PassengerBehaviour : MonoBehaviour
     {
         passengerBT = new BehaviourTreeEngine();
         movement = GetComponent<BasicMovement>();
+        valueAction = Random.Range(0, 100);
 
         SequenceNode mainSequence = passengerBT.CreateSequenceNode("MainSequence", false);
 
-        //mainSequence.AddChild(passengerBT.CreateLeafNode("BuyingTicket",
-        //    () => movement.SetDestination(SubwayStation.main.GetRandomTicketMachinePosition()),
-        //    () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+        if (Random.Range(0, 100) < 10)
+        {
+            mainSequence.AddChild(passengerBT.CreateLeafNode("AskingReceptionist",
+            () => movement.SetDestination(SubwayStation.main.receptionist.position + new Vector3(0, 0, 2f)),
+            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+
+            //Timer recepcion
+            mainSequence.AddChild(passengerBT.CreateTimerNode("VamosJose", passengerBT.CreateLeafNode("BuyingTicket",
+            () => movement.SetDestination(SubwayStation.main.GetRandomTicketMachinePosition()),
+            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 1f));
+        }
+        else
+        {
+            mainSequence.AddChild(passengerBT.CreateLeafNode("BuyingTicket",
+                () => movement.SetDestination(SubwayStation.main.GetRandomTicketMachinePosition()),
+                () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+        }
 
         //mainSequence.AddChild(passengerBT.CreateTimerNode("TicketDelay",
         //    (passengerBT.CreateLeafNode("MoveToDestination",
         //    () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
         //    () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed)),
         //    0.01f));
+
+        if (valueAction < 20)
+        {
+            Debug.Log("Escucha musiquilla");
+            if (Random.Range(0, 100) < 30)
+            {
+                Debug.Log("Deja propina");
+            }
+            else
+            {
+                Debug.Log("Cómeme la polla");
+            }
+
+        }
+        else if (20 <= valueAction && valueAction < 30)
+        {
+            Debug.Log("Tirar basura");
+        }
+        else if (30 <= valueAction && valueAction < 50) { Debug.Log("Pegarse"); }
+        else {
+            mainSequence.AddChild(passengerBT.CreateLeafNode("DoNothing",
+            () => { },
+            () => ReturnValues.Succeed));
+            Debug.Log("No hace nada"); }
+
+
 
         mainSequence.AddChild(passengerBT.CreateLeafNode("MoveToDestination",
             () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
