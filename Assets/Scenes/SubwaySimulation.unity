@@ -2137,7 +2137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &658342407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2147,7 +2147,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 658342406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f823c1cbf4a38a4a98687f581c7fd83, type: 3}
+  m_Script: {fileID: 11500000, guid: 47fbe64472e911c4986448b2366453c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targets:
@@ -2156,7 +2156,6 @@ MonoBehaviour:
   - {fileID: 1949302771}
   - {fileID: 1578889862}
   trigger: {fileID: 658342408}
-  targetsTEST: []
 --- !u!114 &658342408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2171,7 +2170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: {fileID: 7688393281046716318, guid: 89cc5ad066d235743b281393889ef0e6, type: 3}
   minSpawnRate: 0
-  maxSpawnRate: 30
+  maxSpawnRate: 4
 --- !u!4 &658342409
 Transform:
   m_ObjectHideFlags: 0
@@ -6661,15 +6660,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f823c1cbf4a38a4a98687f581c7fd83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 491460940}
-  - {fileID: 873865171}
-  - {fileID: 972719833}
-  - {fileID: 192454097}
-  - {fileID: 1686750270}
-  - {fileID: 400505763}
-  - {fileID: 329915733}
-  - {fileID: 570962410}
   trigger: {fileID: 2118327036}
   targetsTEST:
   - list:
