@@ -24,7 +24,7 @@ public class RandomTargetSelector : MonoBehaviour
         TransformList targetRandom = targetsTEST[randomValue];
 
         unit.GetComponent<BasicMovement>().SetDestination(new Vector3(Random.Range(targetRandom.list[1].position.x, targetRandom.list[0].position.x), targetRandom.list[0].position.y, 
-            Random.Range(targetRandom.list[2].position.z, targetRandom.list[0].position.z)));
+            Random.Range(targetRandom.list[0].position.z, targetRandom.list[1].position.z)));
 
     }
 }
