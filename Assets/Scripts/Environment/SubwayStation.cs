@@ -10,16 +10,20 @@ public class SubwayStation : MonoBehaviour
     public Transform exit;
 
     public GameObject platforms;
-    public Platform[] _platforms;
+    private Platform[] _platforms;
 
     public GameObject ticketMachines;
-    public TicketMachine[] _ticketMachines;
+    private TicketMachine[] _ticketMachines;
+
+    public GameObject turnstiles;
+    private Turnstile[] _turnstiles;
 
     private void Awake()
     {
         main = this;
         _platforms = platforms.GetComponentsInChildren<Platform>();
         _ticketMachines = ticketMachines.GetComponentsInChildren<TicketMachine>();
+        _turnstiles = turnstiles.GetComponentsInChildren<Turnstile>();
     }
 
     public Vector3 GetRandomPlatformPosition()
@@ -34,5 +38,12 @@ public class SubwayStation : MonoBehaviour
         TicketMachine randomTicketMachine = _ticketMachines[Random.Range(0, _ticketMachines.Length)];
 
         return randomTicketMachine.ticketPoint.transform.position;
+    }
+
+    public Vector3 GetRandomTurnstilePosition()
+    {
+        Turnstile randomTurnstile = _turnstiles[Random.Range(0, _turnstiles.Length)];
+
+        return randomTurnstile.entryPoint.transform.position;
     }
 }

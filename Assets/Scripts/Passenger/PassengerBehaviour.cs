@@ -31,18 +31,21 @@ public class PassengerBehaviour : MonoBehaviour
             () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 1f));
         }
         else
-        {
+        {          
             mainSequence.AddChild(passengerBT.CreateLeafNode("BuyingTicket",
                 () => movement.SetDestination(SubwayStation.main.GetRandomTicketMachinePosition()),
                 () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+
+            mainSequence.AddChild(passengerBT.CreateTimerNode("TicketDelay", passengerBT.CreateLeafNode("MoveToTurnstile",
+                () => movement.SetDestination(SubwayStation.main.GetRandomTurnstilePosition()),
+                () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 0.5f));
+
+            mainSequence.AddChild(passengerBT.CreateLeafNode("PassTurnstile",
+                () => movement.SetDestination(transform.position + new Vector3(4, 0, 0)),
+                () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
         }
 
-        //mainSequence.AddChild(passengerBT.CreateTimerNode("TicketDelay",
-        //    (passengerBT.CreateLeafNode("MoveToDestination",
-        //    () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
-        //    () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed)),
-        //    0.01f));
-
+        /*
         if (valueAction < 20)
         {
             Debug.Log("Escucha musiquilla");
@@ -68,7 +71,7 @@ public class PassengerBehaviour : MonoBehaviour
             () => ReturnValues.Succeed));
             Debug.Log("No hace nada");
         }
-
+        */
 
 
         mainSequence.AddChild(passengerBT.CreateLeafNode("MoveToDestination",
