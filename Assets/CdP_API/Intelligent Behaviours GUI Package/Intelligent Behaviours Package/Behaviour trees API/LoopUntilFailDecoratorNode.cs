@@ -49,6 +49,7 @@ public class LoopUntilFailDecoratorNode : TreeNode {
             ReturnValue = ReturnValues.Succeed;
         }
         else {
+            Child.Reset();
             Loop();
         }
 

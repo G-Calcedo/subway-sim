@@ -10,6 +10,7 @@ public class Turnstile : MonoBehaviour
     private Vector3 leftClosed, leftOpen, rightClosed, rightOpen;
 
     public GameObject entryPoint;
+    public bool InUse { get; set; }
 
     private void Awake()
     {

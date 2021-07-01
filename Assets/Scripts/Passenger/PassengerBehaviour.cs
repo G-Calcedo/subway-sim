@@ -11,6 +11,12 @@ public class PassengerBehaviour : MonoBehaviour
     public Platform CurrentPlatform;
     public bool readyToBoard;
 
+    public TicketMachine assignedTicketMachine;
+    public Turnstile assignedTurnstile;
+
+    public Musician assignedMusician;
+    public bool asd;
+
     private void Awake()
     {
         passengerBT = new BehaviourTreeEngine();
@@ -27,21 +33,29 @@ public class PassengerBehaviour : MonoBehaviour
 
             //Timer recepcion
             mainSequence.AddChild(passengerBT.CreateTimerNode("VamosJose", passengerBT.CreateLeafNode("BuyingTicket",
-            () => movement.SetDestination(SubwayStation.main.GetRandomTicketMachinePosition()),
+            () => movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position),
             () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 1f));
         }
         else
         {
             mainSequence.AddChild(passengerBT.CreateLeafNode("BuyingTicket",
-                () => movement.SetDestination(SubwayStation.main.GetRandomTicketMachinePosition()),
+                () => movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position),
                 () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
         }
         mainSequence.AddChild(passengerBT.CreateTimerNode("TicketDelay", passengerBT.CreateLeafNode("MoveToTurnstile",
-            () => movement.SetDestination(SubwayStation.main.GetRandomTurnstilePosition()),
-            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 0.5f));
+            () =>
+            {
+                assignedTicketMachine.InUse = false;
+                movement.SetDestination(assignedTurnstile.entryPoint.transform.position);
+            },
+            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 0.01f));
 
         mainSequence.AddChild(passengerBT.CreateLeafNode("PassTurnstile",
-            () => movement.SetDestination(transform.position + new Vector3(4, 0, 0)),
+            () =>
+            {
+                assignedTurnstile.InUse = false;
+                movement.SetDestination(transform.position + new Vector3(4, 0, 0));
+            },
             () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
 
 
@@ -73,10 +87,9 @@ public class PassengerBehaviour : MonoBehaviour
         }
         */
 
-
         mainSequence.AddChild(passengerBT.CreateLeafNode("MoveToDestination",
-            () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
-            () => CurrentPlatform is null ? ReturnValues.Running : ReturnValues.Succeed));
+           () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
+           () => CurrentPlatform is null ? ReturnValues.Running : ReturnValues.Succeed));
 
         mainSequence.AddChild(passengerBT.CreateLeafNode("WaitingForTrain",
             () => { },
@@ -92,5 +105,7 @@ public class PassengerBehaviour : MonoBehaviour
     private void Update()
     {
         passengerBT.Update();
+        if (asd)
+            Debug.Log(passengerBT.GetCurrentState().Name);
     }
 }

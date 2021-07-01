@@ -5,34 +5,82 @@ using UnityEngine;
 
 public class Musician : MonoBehaviour
 {
+    public TicketMachine assignedTicketMachine;
+    public Turnstile assignedTurnstile;
+    public MusicianSpot assignedMusicianSpot;
+
     public GameObject walk, playing, hat;
 
+    private BehaviourTreeEngine musicianBT;
     private StateMachineEngine musicianSM;
     private BasicMovement movement;
+
+    public Platform CurrentPlatform;
+    public bool readyToBoard;
+
+    private List<PassengerBehaviour> nearPassengers;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Passenger"))
+        {
+            nearPassengers.Add(other.gameObject.GetComponent<PassengerBehaviour>());
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Passenger"))
+        {
+            other.gameObject.GetComponent<PassengerBehaviour>().assignedMusician = null;
+        }
+    }
+
     private void Start()
     {
-        musicianSM = new StateMachineEngine();
+        musicianBT = new BehaviourTreeEngine();
+        musicianSM = new StateMachineEngine(true);
         movement = GetComponent<BasicMovement>();
 
-        Perception isWalking = musicianSM.CreatePerception<ValuePerception>(() => !movement.IsMoving());
+        nearPassengers = new List<PassengerBehaviour>();
+
+        SequenceNode mainSequence = musicianBT.CreateSequenceNode("MainSequence", false);
+
+        mainSequence.AddChild(musicianBT.CreateLeafNode("BuyingTicket",
+               () => movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position),
+               () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+
+        mainSequence.AddChild(musicianBT.CreateTimerNode("TicketDelay", musicianBT.CreateLeafNode("MoveToTurnstile",
+                () =>
+                {
+                    assignedTicketMachine.InUse = false;
+                    movement.SetDestination(assignedTurnstile.entryPoint.transform.position);
+                },
+                () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 0.01f));
+
+        mainSequence.AddChild(musicianBT.CreateLeafNode("PassTurnstile",
+            () =>
+            {
+                assignedTurnstile.InUse = false;
+                movement.SetDestination(transform.position + new Vector3(4, 0, 0));
+            },
+            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+
+        mainSequence.AddChild(musicianBT.CreateLeafNode("MoveToSpot",
+            () => movement.SetDestination(assignedMusicianSpot.transform.position),
+            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+
+        mainSequence.AddChild(musicianBT.CreateLeafNode("PrepareInstrument",
+            () => transform.DORotate(assignedMusicianSpot.alignment, 0.1f),
+            () => ReturnValues.Succeed));
+
+        mainSequence.AddChild(musicianBT.CreateSubBehaviour("PlayMusic", musicianSM));
 
         Perception moneyReceived = musicianSM.CreatePerception<PushPerception>();
         Perception keepPlaying = musicianSM.CreatePerception<TimerPerception>(0.5f);
+        Perception stopPlaying = musicianSM.CreatePerception<TimerPerception>(15);
 
         Tween musicAnim = null;
-
-
-
-        State movingCharacter = musicianSM.CreateEntryState("Moving", () =>
-        {
-            playing.SetActive(false);
-            hat.SetActive(false);
-            walk.SetActive(true);
-            Debug.Log("Walking");
-
-        });
-
-
 
         State playingMusic = musicianSM.CreateEntryState("Playing", () =>
         {
@@ -40,7 +88,6 @@ public class Musician : MonoBehaviour
             walk.SetActive(false);
             playing.SetActive(true);
             hat.SetActive(true);
-            Debug.Log("Playing");
             playing.transform.DOScale(200, 0.15f).OnComplete(() =>
             {
                 musicAnim = playing.transform.DOScale(250, 0.25f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutFlash);
@@ -49,17 +96,15 @@ public class Musician : MonoBehaviour
 
         State thankingMoney = musicianSM.CreateState("Thanking", () =>
         {
-            Debug.Log("GRACIAS AMIGO");
             musicAnim.Kill();
             playing.transform.DOLocalJump(playing.transform.localPosition, 2, 1, 0.5f);
         });
 
-
-        musicianSM.CreateTransition("Move", movingCharacter, isWalking, playingMusic);
-
-
         musicianSM.CreateTransition("Thank", playingMusic, moneyReceived, thankingMoney);
         musicianSM.CreateTransition("Play", thankingMoney, keepPlaying, playingMusic);
+        musicianSM.CreateExitTransition("StopPlaying", playingMusic, stopPlaying, ReturnValues.Succeed);
+
+        musicianBT.SetRootNode(mainSequence);
     }
 
     private void Update()
@@ -69,6 +114,17 @@ public class Musician : MonoBehaviour
             musicianSM.Fire("Thank");
         }
 
-        musicianSM.Update();
+        musicianBT.Update();
+    }
+
+    private void AtractPassengers()
+    {
+        foreach (PassengerBehaviour passenger in nearPassengers)
+        {
+            if (Random.Range(0, 100) < 10)
+            {
+                passenger.assignedMusician = this;
+            }
+        }
     }
 }
