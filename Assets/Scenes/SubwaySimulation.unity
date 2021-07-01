@@ -591,14 +591,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107494895}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -93.88344, y: 36.164036, z: -1.347681}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1553165007}
   - {fileID: 48382925}
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_Father: {fileID: 911549806}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &112963416
 GameObject:
@@ -2584,8 +2584,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cd65ea11f21484c8eeecebeb8ffd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 7688393281046716318, guid: 89cc5ad066d235743b281393889ef0e6, type: 3}
-  randomizeModel: 0
+  passengerUnit: {fileID: 0}
+  musicianUnit: {fileID: 0}
   unitModels: []
   minSpawnRate: 15
   maxSpawnRate: 30
@@ -2632,8 +2632,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cd65ea11f21484c8eeecebeb8ffd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 8018685896537079419, guid: 003183c0b107dca4aad1a36a755203a4, type: 3}
-  randomizeModel: 0
+  passengerUnit: {fileID: 0}
+  musicianUnit: {fileID: 0}
   unitModels: []
   minSpawnRate: 0
   maxSpawnRate: 20
@@ -3297,15 +3297,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cd65ea11f21484c8eeecebeb8ffd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 4574146127984340368, guid: aa4d9ec0daf63944f9e7ce53bf556ec5, type: 3}
-  randomizeModel: 1
+  passengerUnit: {fileID: 4574146127984340368, guid: aa4d9ec0daf63944f9e7ce53bf556ec5, type: 3}
+  musicianUnit: {fileID: 7688393281046716318, guid: 89cc5ad066d235743b281393889ef0e6, type: 3}
   unitModels:
   - {fileID: 919132149155446097, guid: 91b5c3afb0f730a4dbb52b76a46b2eb7, type: 3}
   - {fileID: 919132149155446097, guid: 45bf117d669fd8f4692e20c50011f7fa, type: 3}
   - {fileID: 919132149155446097, guid: 51bb2d40369b8cb41b71e43e4135d2ca, type: 3}
   - {fileID: 919132149155446097, guid: 9a3ea729b3e3b764284bb90cb0f1c700, type: 3}
-  minSpawnRate: 2
-  maxSpawnRate: 5
+  minSpawnRate: 0.1
+  maxSpawnRate: 0.15
 --- !u!1 &743986070
 GameObject:
   m_ObjectHideFlags: 0
@@ -3614,8 +3614,9 @@ Transform:
   m_Children:
   - {fileID: 1066065910}
   - {fileID: 288313377}
+  - {fileID: 107494896}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &911549807
 MonoBehaviour:
@@ -3634,8 +3635,9 @@ MonoBehaviour:
   platforms: {fileID: 288313376}
   ticketMachines: {fileID: 89602275}
   turnstiles: {fileID: 163458989}
---- !u!1001 &917498575
-PrefabInstance:
+  musicianSpots: {fileID: 1553165006}
+--- !u!1 &930160417
+GameObject:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
@@ -3735,7 +3737,7 @@ Transform:
   - {fileID: 658342409}
   - {fileID: 669228478}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &934409097 stripped
 Transform:
@@ -6216,7 +6218,7 @@ Transform:
   - {fileID: 140204302}
   - {fileID: 133401426}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1497382601
 GameObject:
@@ -6482,7 +6484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1553165007}
   m_Layer: 0
-  m_Name: TargetsMusician (NO TEST)
+  m_Name: TargetsMusician
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6732,6 +6734,19 @@ Transform:
   m_Father: {fileID: 1972682248}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1578889863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578889861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a25a306af941b409c80c0b380f72cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alignment: {x: 0, y: 180, z: 0}
 --- !u!1 &1598931011
 GameObject:
   m_ObjectHideFlags: 0
@@ -7112,7 +7127,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1670820951 stripped
 Transform:
@@ -8128,6 +8143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1949302771}
+  - component: {fileID: 1949302772}
   m_Layer: 0
   m_Name: Target_3
   m_TagString: Untagged
@@ -8149,6 +8165,19 @@ Transform:
   m_Father: {fileID: 1553165007}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1949302772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949302770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a25a306af941b409c80c0b380f72cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alignment: {x: 0, y: -90, z: 0}
 --- !u!1 &1952750508
 GameObject:
   m_ObjectHideFlags: 0
@@ -8158,6 +8187,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1952750509}
+  - component: {fileID: 1952750510}
   m_Layer: 0
   m_Name: Target_2
   m_TagString: Untagged
@@ -8179,6 +8209,19 @@ Transform:
   m_Father: {fileID: 1553165007}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1952750510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952750508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a25a306af941b409c80c0b380f72cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alignment: {x: 0, y: 0, z: 0}
 --- !u!1001 &1958200631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8297,6 +8340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1982026762}
+  - component: {fileID: 1982026763}
   m_Layer: 0
   m_Name: Target_1
   m_TagString: Untagged
@@ -8318,6 +8362,19 @@ Transform:
   m_Father: {fileID: 1553165007}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1982026763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982026761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a25a306af941b409c80c0b380f72cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alignment: {x: 0, y: 180, z: 0}
 --- !u!1 &1984610958
 GameObject:
   m_ObjectHideFlags: 0
@@ -8569,15 +8626,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58cd65ea11f21484c8eeecebeb8ffd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 4574146127984340368, guid: aa4d9ec0daf63944f9e7ce53bf556ec5, type: 3}
-  randomizeModel: 1
+  passengerUnit: {fileID: 4574146127984340368, guid: aa4d9ec0daf63944f9e7ce53bf556ec5, type: 3}
+  musicianUnit: {fileID: 7688393281046716318, guid: 89cc5ad066d235743b281393889ef0e6, type: 3}
   unitModels:
   - {fileID: 919132149155446097, guid: 91b5c3afb0f730a4dbb52b76a46b2eb7, type: 3}
   - {fileID: 919132149155446097, guid: 45bf117d669fd8f4692e20c50011f7fa, type: 3}
   - {fileID: 919132149155446097, guid: 51bb2d40369b8cb41b71e43e4135d2ca, type: 3}
   - {fileID: 919132149155446097, guid: 9a3ea729b3e3b764284bb90cb0f1c700, type: 3}
-  minSpawnRate: 2
-  maxSpawnRate: 5
+  minSpawnRate: 0.1
+  maxSpawnRate: 0.15
 --- !u!4 &2118327037
 Transform:
   m_ObjectHideFlags: 0
