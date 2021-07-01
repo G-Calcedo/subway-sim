@@ -8,7 +8,7 @@ public class RandomMovement : MonoBehaviour
     public float wanderRadius;
     public float wanderTimer;
 
-    private Transform target;
+    private Vector3 target;
     private NavMeshAgent agent;
     private float timer;
 
@@ -27,6 +27,7 @@ public class RandomMovement : MonoBehaviour
         if (timer >= wanderTimer)
         {
             Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+            target = newPos;
             agent.SetDestination(newPos);
             timer = 0;
         }
@@ -39,5 +40,11 @@ public class RandomMovement : MonoBehaviour
         NavMeshHit navHit;
         NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
         return navHit.position;
+    }
+    public bool IsMoving()
+    {
+        Vector3 a = new Vector3(target.x, 0, target.z);
+        Vector3 b = new Vector3(transform.position.x, 0, transform.position.z);
+        return a != b;
     }
 }
