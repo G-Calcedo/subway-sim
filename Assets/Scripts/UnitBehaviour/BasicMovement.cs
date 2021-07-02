@@ -31,10 +31,27 @@ public class BasicMovement : MonoBehaviour
         navegation.isStopped = false;
     }
 
+    /*
     public bool IsMoving()
     {
         Vector3 a = new Vector3(target.x, 0, target.z);
         Vector3 b = new Vector3(transform.position.x, 0, transform.position.z);
         return a != b;
+    }*/
+
+    public bool IsMoving()
+    {
+        if (!navegation.pathPending)
+        {
+            if (navegation.remainingDistance <= navegation.stoppingDistance)
+            {
+                if (!navegation.hasPath || navegation.velocity.sqrMagnitude == 0f)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

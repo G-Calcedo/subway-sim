@@ -13,6 +13,8 @@ public class MusicianBehaviour : TrainUserBehaviour
 
     private BehaviourTreeEngine musicianBT;
     private StateMachineEngine musicianSM;
+
+    public bool isPlaying;
     //private BasicMovement movement;
 
     //public Platform CurrentPlatform;
@@ -70,6 +72,7 @@ public class MusicianBehaviour : TrainUserBehaviour
             walk.SetActive(false);
             playing.SetActive(true);
             hat.SetActive(true);
+            isPlaying = true;
             playing.transform.DOScale(200, 0.15f).OnComplete(() =>
             {
                 musicAnim = playing.transform.DOScale(250, 0.25f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutFlash);
@@ -97,6 +100,7 @@ public class MusicianBehaviour : TrainUserBehaviour
                 walk.SetActive(true);
                 playing.SetActive(false);
                 hat.SetActive(false);
+                isPlaying = false;
                 assignedMusicianSpot.InUse = false;
             },
             () => ReturnValues.Succeed));

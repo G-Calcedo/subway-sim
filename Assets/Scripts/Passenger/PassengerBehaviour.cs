@@ -28,7 +28,7 @@ public class PassengerBehaviour : TrainUserBehaviour
 
         SequenceNode mainSequence = passengerBT.CreateSequenceNode("MainSequence", false);
 
-        if (Random.Range(0, 100) < 10)
+        if (Random.Range(0, 100) < 0)
         {
             mainSequence.AddChild(passengerBT.CreateLeafNode("AskingReceptionist",
             () => movement.SetDestination(SubwayStation.main.receptionist.position + new Vector3(0, 0, 2f)),
@@ -92,8 +92,11 @@ public class PassengerBehaviour : TrainUserBehaviour
         */
 
         Perception platformReached = passengerSM.CreatePerception<ValuePerception>(() => readyToBoard);
-        Perception atractedByMusicion = passengerSM.CreatePerception<ValuePerception>(() => !(assignedMusician is null));
+        Perception atractedByMusician = passengerSM.CreatePerception<ValuePerception>(() => !(assignedMusician is null));
         Perception listenTimer = passengerSM.CreatePerception<TimerPerception>(5f);
+        Perception moneyNotGiven = passengerSM.CreatePerception<PushPerception>();
+        Perception moneyGiven = passengerSM.CreatePerception<ValuePerception>(() => !movement.IsMoving());
+        Perception moneyPerc = passengerSM.CreateOrPerception<OrPerception>(moneyNotGiven, moneyGiven);
 
         State goToDestination = passengerSM.CreateEntryState("GoToDestination",
             () =>
@@ -106,13 +109,32 @@ public class PassengerBehaviour : TrainUserBehaviour
         State listenToMusician = passengerSM.CreateState("ListenToMusic",
             () =>
             {
-                Debug.Log("ME HAN CAZADO");
                 movement.PauseMovement();
                 transform.DOLookAt(assignedMusician.transform.position, 0.25f, AxisConstraint.None, Vector3.up);
             });
 
-        passengerSM.CreateTransition("Listen", goToDestination, atractedByMusicion, listenToMusician);
-        passengerSM.CreateTransition("StopListen", listenToMusician, listenTimer, goToDestination);
+        State giveMoney = passengerSM.CreateState("GiveMoney",
+            () =>
+            {
+                if (Random.Range(0, 100) < 50 && assignedMusician.isPlaying)
+                {
+                    Debug.Log("DINERO");
+                    Vector3 a = assignedMusician.hat.transform.position;
+                    Vector3 b = transform.position;
+                    Vector3 ba = (b - a).normalized;
+                    movement.SetDestination(assignedMusician.hat.transform.position + ba * 1.5f);
+                    movement.ResumeMovement();
+                }
+                else
+                {
+                    Debug.Log("TUS MUERTOS");
+                    passengerSM.Fire(moneyNotGiven);
+                }
+            });
+
+        passengerSM.CreateTransition("Listen", goToDestination, atractedByMusician, listenToMusician);
+        passengerSM.CreateTransition("StopListen", listenToMusician, listenTimer, giveMoney);
+        passengerSM.CreateTransition("KeepMoving", giveMoney, moneyGiven, goToDestination);
 
         mainSequence.AddChild(passengerBT.CreateSubBehaviour("Travelling", passengerSM));
 
