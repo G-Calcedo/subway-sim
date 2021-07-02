@@ -23,7 +23,7 @@ public class UnitSpawner : MonoBehaviour
     {
         if (spawnTime <= 0 && SubwayStation.main.IsTicketMachineAvailable() && SubwayStation.main.IsTurnstileAvailable())
         {
-            if (UnityEngine.Random.Range(0, 100) < 10 && SubwayStation.main.IsMusicianSpotAvailable())
+            if (UnityEngine.Random.Range(0, 100) < 5 && SubwayStation.main.IsMusicianSpotAvailable())
             {
                 SpawnMusician();
             }
@@ -57,7 +57,7 @@ public class UnitSpawner : MonoBehaviour
     {
         GameObject spawnedUnit = Instantiate(musicianUnit, transform.position, Quaternion.identity);
 
-        Musician musician = spawnedUnit.GetComponent<Musician>();
+        MusicianBehaviour musician = spawnedUnit.GetComponent<MusicianBehaviour>();
         musician.assignedTicketMachine = SubwayStation.main.AssignRandomTicketMachine();
         musician.assignedTicketMachine.InUse = true;
         musician.assignedTurnstile = SubwayStation.main.AssignRandomTurnstile();

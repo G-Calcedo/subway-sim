@@ -13,7 +13,7 @@ public class TrainEntrance : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Passenger"))
+        if (other.CompareTag("Passenger") || other.CompareTag("Musician"))
         {
             train.passengersLeft--;
             Destroy(other.gameObject);

@@ -7,12 +7,12 @@ public class Platform : MonoBehaviour
     public TrainBehaviour train;
 
     private Collider platformCollider;
-    private List<PassengerBehaviour> passengers;
+    private List<TrainUserBehaviour> passengers;
 
     private void Awake()
     {
         platformCollider = GetComponent<BoxCollider>();
-        passengers = new List<PassengerBehaviour>();
+        passengers = new List<TrainUserBehaviour>();
 
         train.OnArrival += () =>
         {
@@ -23,9 +23,9 @@ public class Platform : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Passenger"))
+        if (other.CompareTag("Passenger") || other.CompareTag("Musician"))
         {
-            PassengerBehaviour passenger = other.gameObject.GetComponent<PassengerBehaviour>();
+            TrainUserBehaviour passenger = other.gameObject.GetComponent<TrainUserBehaviour>();
             if (passenger.CurrentPlatform is null)
             {
                 passenger.CurrentPlatform = this;
@@ -46,7 +46,7 @@ public class Platform : MonoBehaviour
 
     public void NotifyPassengers()
     {
-        foreach(PassengerBehaviour passenger in passengers)
+        foreach(TrainUserBehaviour passenger in passengers)
         {
             passenger.readyToBoard = true;
         }

@@ -3,46 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Musician : MonoBehaviour
+public class MusicianBehaviour : TrainUserBehaviour
 {
-    public TicketMachine assignedTicketMachine;
-    public Turnstile assignedTurnstile;
+    //public TicketMachine assignedTicketMachine;
+    //public Turnstile assignedTurnstile;
     public MusicianSpot assignedMusicianSpot;
 
     public GameObject walk, playing, hat;
 
     private BehaviourTreeEngine musicianBT;
     private StateMachineEngine musicianSM;
-    private BasicMovement movement;
+    //private BasicMovement movement;
 
-    public Platform CurrentPlatform;
-    public bool readyToBoard;
-
-    private List<PassengerBehaviour> nearPassengers;
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Passenger"))
-        {
-            nearPassengers.Add(other.gameObject.GetComponent<PassengerBehaviour>());
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Passenger"))
-        {
-            other.gameObject.GetComponent<PassengerBehaviour>().assignedMusician = null;
-        }
-    }
+    //public Platform CurrentPlatform;
+    //public bool readyToBoard;
 
     private void Start()
     {
         musicianBT = new BehaviourTreeEngine();
         musicianSM = new StateMachineEngine(true);
         movement = GetComponent<BasicMovement>();
-
-        nearPassengers = new List<PassengerBehaviour>();
 
         SequenceNode mainSequence = musicianBT.CreateSequenceNode("MainSequence", false);
 
@@ -71,10 +51,12 @@ public class Musician : MonoBehaviour
             () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
 
         mainSequence.AddChild(musicianBT.CreateLeafNode("PrepareInstrument",
-            () => transform.DORotate(assignedMusicianSpot.alignment, 0.1f),
+            () =>
+            {
+                transform.DORotate(assignedMusicianSpot.alignment, 0.1f);
+                InvokeRepeating(nameof(AtractPassengers), 0, 0.5f);
+            },
             () => ReturnValues.Succeed));
-
-        mainSequence.AddChild(musicianBT.CreateSubBehaviour("PlayMusic", musicianSM));
 
         Perception moneyReceived = musicianSM.CreatePerception<PushPerception>();
         Perception keepPlaying = musicianSM.CreatePerception<TimerPerception>(0.5f);
@@ -102,7 +84,34 @@ public class Musician : MonoBehaviour
 
         musicianSM.CreateTransition("Thank", playingMusic, moneyReceived, thankingMoney);
         musicianSM.CreateTransition("Play", thankingMoney, keepPlaying, playingMusic);
+
+        mainSequence.AddChild(musicianBT.CreateSubBehaviour("PlayMusic", musicianSM));
+
         musicianSM.CreateExitTransition("StopPlaying", playingMusic, stopPlaying, ReturnValues.Succeed);
+
+        mainSequence.AddChild(musicianBT.CreateLeafNode("StopPlaying",
+            () =>
+            {
+                CancelInvoke(nameof(AtractPassengers));
+                musicAnim.Kill();
+                walk.SetActive(true);
+                playing.SetActive(false);
+                hat.SetActive(false);
+                assignedMusicianSpot.InUse = false;
+            },
+            () => ReturnValues.Succeed));
+
+        mainSequence.AddChild(musicianBT.CreateLeafNode("MoveToDestination",
+           () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
+           () => CurrentPlatform is null ? ReturnValues.Running : ReturnValues.Succeed));
+
+        mainSequence.AddChild(musicianBT.CreateLeafNode("WaitingForTrain",
+            () => { },
+            () => readyToBoard ? ReturnValues.Succeed : ReturnValues.Running));
+
+        mainSequence.AddChild(musicianBT.CreateLeafNode("EnterTrain",
+            () => movement.SetDestination(CurrentPlatform.train.GetClosestEntrance(transform.position)),
+            () => ReturnValues.Succeed));
 
         musicianBT.SetRootNode(mainSequence);
     }
@@ -115,15 +124,17 @@ public class Musician : MonoBehaviour
         }
 
         musicianBT.Update();
+        musicianSM.Update();
     }
 
     private void AtractPassengers()
     {
-        foreach (PassengerBehaviour passenger in nearPassengers)
+        foreach (Collider passenger in Physics.OverlapSphere(transform.position, 15))
         {
-            if (Random.Range(0, 100) < 10)
+            if (passenger.CompareTag("Passenger") && Random.Range(0, 100) < 10)
             {
-                passenger.assignedMusician = this;
+                passenger.GetComponent<PassengerBehaviour>().assignedMusician = this;
+                Debug.Log("Cazado");
             }
         }
     }

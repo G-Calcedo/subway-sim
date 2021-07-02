@@ -2,26 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PassengerBehaviour : MonoBehaviour
+public class PassengerBehaviour : TrainUserBehaviour
 {
     private BehaviourTreeEngine passengerBT;
-    private BasicMovement movement;
-    private float valueAction;
+    //private BasicMovement movement;
 
-    public Platform CurrentPlatform;
-    public bool readyToBoard;
+    //public Platform CurrentPlatform;
+    //public bool readyToBoard;
 
-    public TicketMachine assignedTicketMachine;
-    public Turnstile assignedTurnstile;
+    //public TicketMachine assignedTicketMachine;
+    //public Turnstile assignedTurnstile;
 
-    public Musician assignedMusician;
-    public bool asd;
+    public MusicianBehaviour assignedMusician;
 
     private void Awake()
     {
         passengerBT = new BehaviourTreeEngine();
         movement = GetComponent<BasicMovement>();
-        valueAction = Random.Range(0, 100);
 
         SequenceNode mainSequence = passengerBT.CreateSequenceNode("MainSequence", false);
 
@@ -105,7 +102,5 @@ public class PassengerBehaviour : MonoBehaviour
     private void Update()
     {
         passengerBT.Update();
-        if (asd)
-            Debug.Log(passengerBT.GetCurrentState().Name);
     }
 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7198501998251106576}
   - component: {fileID: 4675063149795974140}
   - component: {fileID: 5021932813323580592}
-  - component: {fileID: 1532879206223279701}
   - component: {fileID: 3015519396686967200}
   - component: {fileID: 557539745597353500}
   m_Layer: 0
@@ -87,25 +86,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assignedTicketMachine: {fileID: 0}
   assignedTurnstile: {fileID: 0}
+  CurrentPlatform: {fileID: 0}
+  readyToBoard: 0
   assignedMusicianSpot: {fileID: 0}
   walk: {fileID: 8927006160064745676}
   playing: {fileID: 7697486961178940989}
   hat: {fileID: 7681420562019639549}
-  CurrentPlatform: {fileID: 0}
-  readyToBoard: 0
---- !u!135 &1532879206223279701
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7688393281046716318}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 12
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3015519396686967200
 Rigidbody:
   m_ObjectHideFlags: 0
