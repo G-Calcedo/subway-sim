@@ -122,11 +122,6 @@ public class MusicianBehaviour : TrainUserBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            musicianSM.Fire("Thank");
-        }
-
         musicianBT.Update();
         musicianSM.Update();
     }

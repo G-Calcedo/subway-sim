@@ -62,35 +62,6 @@ public class PassengerBehaviour : TrainUserBehaviour
             },
             () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
 
-
-        /*
-        if (valueAction < 20)
-        {
-            Debug.Log("Escucha musiquilla");
-            if (Random.Range(0, 100) < 30)
-            {
-                Debug.Log("Deja propina");
-            }
-            else
-            {
-                Debug.Log("Cómeme la polla");
-            }
-
-        }
-        else if (20 <= valueAction && valueAction < 30)
-        {
-            Debug.Log("Tirar basura");
-        }
-        else if (30 <= valueAction && valueAction < 50) { Debug.Log("Pegarse"); }
-        else
-        {
-            mainSequence.AddChild(passengerBT.CreateLeafNode("DoNothing",
-            () => { },
-            () => ReturnValues.Succeed));
-            Debug.Log("No hace nada");
-        }
-        */
-
         Perception platformReached = passengerSM.CreatePerception<ValuePerception>(() => readyToBoard);
         Perception atractedByMusician = passengerSM.CreatePerception<ValuePerception>(() => !(assignedMusician is null));
         Perception listenTimer = passengerSM.CreatePerception<TimerPerception>(5f);
@@ -110,7 +81,7 @@ public class PassengerBehaviour : TrainUserBehaviour
             () =>
             {
                 movement.PauseMovement();
-                transform.DOLookAt(assignedMusician.transform.position, 0.25f, AxisConstraint.None, Vector3.up);
+                transform.DOLookAt(assignedMusician.transform.position, 0.5f, AxisConstraint.None, Vector3.up);
             });
 
         State giveMoney = passengerSM.CreateState("GiveMoney",
@@ -118,7 +89,6 @@ public class PassengerBehaviour : TrainUserBehaviour
             {
                 if (Random.Range(0, 100) < 50 && assignedMusician.isPlaying)
                 {
-                    Debug.Log("DINERO");
                     Vector3 a = assignedMusician.hat.transform.position;
                     Vector3 b = transform.position;
                     Vector3 ba = (b - a).normalized;
@@ -127,14 +97,13 @@ public class PassengerBehaviour : TrainUserBehaviour
                 }
                 else
                 {
-                    Debug.Log("TUS MUERTOS");
-                    passengerSM.Fire(moneyNotGiven);
+                    passengerSM.Fire("KeepMoving");
                 }
             });
 
         passengerSM.CreateTransition("Listen", goToDestination, atractedByMusician, listenToMusician);
         passengerSM.CreateTransition("StopListen", listenToMusician, listenTimer, giveMoney);
-        passengerSM.CreateTransition("KeepMoving", giveMoney, moneyGiven, goToDestination);
+        passengerSM.CreateTransition("KeepMoving", giveMoney, moneyPerc, goToDestination);
 
         mainSequence.AddChild(passengerBT.CreateSubBehaviour("Travelling", passengerSM));
 
