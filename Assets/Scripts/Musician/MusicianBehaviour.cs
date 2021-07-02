@@ -60,7 +60,7 @@ public class MusicianBehaviour : TrainUserBehaviour
 
         Perception moneyReceived = musicianSM.CreatePerception<PushPerception>();
         Perception keepPlaying = musicianSM.CreatePerception<TimerPerception>(0.5f);
-        Perception stopPlaying = musicianSM.CreatePerception<TimerPerception>(15);
+        Perception stopPlaying = musicianSM.CreatePerception<TimerPerception>(30);
 
         Tween musicAnim = null;
 
@@ -103,11 +103,11 @@ public class MusicianBehaviour : TrainUserBehaviour
 
         mainSequence.AddChild(musicianBT.CreateLeafNode("MoveToDestination",
            () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
-           () => CurrentPlatform is null ? ReturnValues.Running : ReturnValues.Succeed));
+           () => readyToBoard ? ReturnValues.Succeed : ReturnValues.Running));
 
-        mainSequence.AddChild(musicianBT.CreateLeafNode("WaitingForTrain",
-            () => { },
-            () => readyToBoard ? ReturnValues.Succeed : ReturnValues.Running));
+        //mainSequence.AddChild(musicianBT.CreateLeafNode("WaitingForTrain",
+        //    () => { },
+        //    () => readyToBoard ? ReturnValues.Succeed : ReturnValues.Running));
 
         mainSequence.AddChild(musicianBT.CreateLeafNode("EnterTrain",
             () => movement.SetDestination(CurrentPlatform.train.GetClosestEntrance(transform.position)),
@@ -133,8 +133,12 @@ public class MusicianBehaviour : TrainUserBehaviour
         {
             if (passenger.CompareTag("Passenger") && Random.Range(0, 100) < 10)
             {
-                passenger.GetComponent<PassengerBehaviour>().assignedMusician = this;
-                Debug.Log("Cazado");
+                PassengerBehaviour pb = passenger.GetComponent<PassengerBehaviour>();
+
+                if(pb.CurrentPlatform is null)
+                {
+                    passenger.GetComponent<PassengerBehaviour>().assignedMusician = this;
+                }             
             }
         }
     }

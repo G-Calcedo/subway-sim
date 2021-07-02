@@ -15,8 +15,20 @@ public class BasicMovement : MonoBehaviour
 
     public void SetDestination(Vector3 target)
     {
+        if (target == this.target) return;
+
         this.target = target;
         navegation.SetDestination(target);
+    }
+
+    public void PauseMovement()
+    {
+        navegation.isStopped = true;
+    }
+
+    public void ResumeMovement()
+    {
+        navegation.isStopped = false;
     }
 
     public bool IsMoving()

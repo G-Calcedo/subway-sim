@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class PassengerBehaviour : TrainUserBehaviour
 {
     private BehaviourTreeEngine passengerBT;
+    private StateMachineEngine passengerSM;
     //private BasicMovement movement;
 
     //public Platform CurrentPlatform;
@@ -14,11 +16,15 @@ public class PassengerBehaviour : TrainUserBehaviour
     //public Turnstile assignedTurnstile;
 
     public MusicianBehaviour assignedMusician;
+    public Vector3 assignedPlatformPosition;
 
     private void Awake()
     {
         passengerBT = new BehaviourTreeEngine();
+        passengerSM = new StateMachineEngine(true);
         movement = GetComponent<BasicMovement>();
+
+        //transform.DOScaleY(1.2f, 0.25f).SetLoops(-1, LoopType.Yoyo);
 
         SequenceNode mainSequence = passengerBT.CreateSequenceNode("MainSequence", false);
 
@@ -51,6 +57,7 @@ public class PassengerBehaviour : TrainUserBehaviour
             () =>
             {
                 assignedTurnstile.InUse = false;
+                assignedPlatformPosition = SubwayStation.main.GetRandomPlatformPosition();
                 movement.SetDestination(transform.position + new Vector3(4, 0, 0));
             },
             () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
@@ -84,13 +91,32 @@ public class PassengerBehaviour : TrainUserBehaviour
         }
         */
 
-        mainSequence.AddChild(passengerBT.CreateLeafNode("MoveToDestination",
-           () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
-           () => CurrentPlatform is null ? ReturnValues.Running : ReturnValues.Succeed));
+        Perception platformReached = passengerSM.CreatePerception<ValuePerception>(() => readyToBoard);
+        Perception atractedByMusicion = passengerSM.CreatePerception<ValuePerception>(() => !(assignedMusician is null));
+        Perception listenTimer = passengerSM.CreatePerception<TimerPerception>(5f);
 
-        mainSequence.AddChild(passengerBT.CreateLeafNode("WaitingForTrain",
-            () => { },
-            () => readyToBoard ? ReturnValues.Succeed : ReturnValues.Running));
+        State goToDestination = passengerSM.CreateEntryState("GoToDestination",
+            () =>
+            {
+                movement.SetDestination(assignedPlatformPosition);
+                movement.ResumeMovement();
+                assignedMusician = null;
+            });
+
+        State listenToMusician = passengerSM.CreateState("ListenToMusic",
+            () =>
+            {
+                Debug.Log("ME HAN CAZADO");
+                movement.PauseMovement();
+                transform.DOLookAt(assignedMusician.transform.position, 0.25f, AxisConstraint.None, Vector3.up);
+            });
+
+        passengerSM.CreateTransition("Listen", goToDestination, atractedByMusicion, listenToMusician);
+        passengerSM.CreateTransition("StopListen", listenToMusician, listenTimer, goToDestination);
+
+        mainSequence.AddChild(passengerBT.CreateSubBehaviour("Travelling", passengerSM));
+
+        passengerSM.CreateExitTransition("PlatformReached", goToDestination, platformReached, ReturnValues.Succeed);
 
         mainSequence.AddChild(passengerBT.CreateLeafNode("EnterTrain",
             () => movement.SetDestination(CurrentPlatform.train.GetClosestEntrance(transform.position)),
@@ -102,5 +128,6 @@ public class PassengerBehaviour : TrainUserBehaviour
     private void Update()
     {
         passengerBT.Update();
+        passengerSM.Update();
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     public TrainBehaviour train;
+    public Vector3 alingment;
 
     private Collider platformCollider;
     private List<TrainUserBehaviour> passengers;
