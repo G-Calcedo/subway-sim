@@ -18,6 +18,8 @@ public class PassengerBehaviour : TrainUserBehaviour
     public MusicianBehaviour assignedMusician;
     public Vector3 assignedPlatformPosition;
 
+    public GameObject trash;
+
     private void Awake()
     {
         passengerBT = new BehaviourTreeEngine();
@@ -62,13 +64,6 @@ public class PassengerBehaviour : TrainUserBehaviour
             },
             () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
 
-        Perception platformReached = passengerSM.CreatePerception<ValuePerception>(() => readyToBoard);
-        Perception atractedByMusician = passengerSM.CreatePerception<ValuePerception>(() => !(assignedMusician is null));
-        Perception listenTimer = passengerSM.CreatePerception<TimerPerception>(5f);
-        Perception moneyNotGiven = passengerSM.CreatePerception<PushPerception>();
-        Perception moneyGiven = passengerSM.CreatePerception<ValuePerception>(() => !movement.IsMoving());
-        Perception moneyPerc = passengerSM.CreateOrPerception<OrPerception>(moneyNotGiven, moneyGiven);
-
         State goToDestination = passengerSM.CreateEntryState("GoToDestination",
             () =>
             {
@@ -101,9 +96,31 @@ public class PassengerBehaviour : TrainUserBehaviour
                 }
             });
 
+        State throwTrash = passengerSM.CreateState("ThrowTrash",
+            () =>
+            {
+                if(Random.Range(0, 100) < 100)
+                {
+                    Debug.Log("MIERDA!");
+                    GameObject spawnedTrash = Instantiate(trash, transform.position, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)));
+                    spawnedTrash.transform.localScale *= Random.Range(1f, 1.5f);
+                } 
+            });
+
+        Perception platformReached = passengerSM.CreatePerception<ValuePerception>(() => readyToBoard);
+        Perception atractedByMusician = passengerSM.CreatePerception<ValuePerception>(() => !(assignedMusician is null));
+        Perception listenTimer = passengerSM.CreatePerception<TimerPerception>(5);
+        Perception moneyNotGiven = passengerSM.CreatePerception<PushPerception>();
+        Perception moneyGiven = passengerSM.CreatePerception<ValuePerception>(() => !movement.IsMoving());
+        Perception moneyPerc = passengerSM.CreateOrPerception<OrPerception>(moneyNotGiven, moneyGiven);
+        Perception trashTimer = passengerSM.CreatePerception<TimerPerception>(Random.Range(2f, 10f));
+        Perception trashThrowed = passengerSM.CreatePerception<IsInStatePerception>(passengerSM, "ThrowTrash");
+
         passengerSM.CreateTransition("Listen", goToDestination, atractedByMusician, listenToMusician);
         passengerSM.CreateTransition("StopListen", listenToMusician, listenTimer, giveMoney);
         passengerSM.CreateTransition("KeepMoving", giveMoney, moneyPerc, goToDestination);
+        passengerSM.CreateTransition("StartThrowing", goToDestination, trashTimer, throwTrash);
+        passengerSM.CreateTransition("StopThrowing", throwTrash, trashThrowed, goToDestination);
 
         mainSequence.AddChild(passengerBT.CreateSubBehaviour("Travelling", passengerSM));
 

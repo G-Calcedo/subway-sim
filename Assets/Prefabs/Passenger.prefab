@@ -82,8 +82,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b82f38a57ac7b46449614d7f8da2919f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assignedTicketMachine: {fileID: 0}
+  assignedTurnstile: {fileID: 0}
   CurrentPlatform: {fileID: 0}
   readyToBoard: 0
+  assignedMusician: {fileID: 0}
+  assignedPlatformPosition: {x: 0, y: 0, z: 0}
+  trash: {fileID: 3829462596213481547, guid: 73eece672ed39fa4289feee85a60c80d, type: 3}
 --- !u!54 &5095454357559832810
 Rigidbody:
   m_ObjectHideFlags: 0
