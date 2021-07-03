@@ -11,9 +11,9 @@ public class GraffitiBehaviour : MonoBehaviour
     {
         graffitiSM = new StateMachineEngine();
         movement = GetComponent<BasicMovement>();
-        
+
         State goToDestination = graffitiSM.CreateEntryState("GoToDestination",
-            () => )
+            () => { });
     }
 
     void Update()

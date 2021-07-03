@@ -30,6 +30,9 @@ public class SubwayStation : MonoBehaviour
 
     public Reception reception;
 
+    public GameObject graffitiSpots;
+    private GraffitiSpot[] _graffitiSpots;
+
     private void Awake()
     {
         main = this;
@@ -37,7 +40,8 @@ public class SubwayStation : MonoBehaviour
         _ticketMachines = ticketMachines.GetComponentsInChildren<TicketMachine>();
         _turnstiles = turnstiles.GetComponentsInChildren<Turnstile>();
         _musicianSpots = musicianSpots.GetComponentsInChildren<MusicianSpot>();
-       // _cleanerSpots = cleanerSpots.GetComponentsInChildren<Transform>();
+        // _cleanerSpots = cleanerSpots.GetComponentsInChildren<Transform>();
+        _graffitiSpots = graffitiSpots.GetComponentsInChildren<GraffitiSpot>();
     }
 
     public Vector3 GetRandomPlatformPosition(Platform spawnPlatform)
@@ -152,6 +156,16 @@ public class SubwayStation : MonoBehaviour
         }
 
         return spot;
+    }
+
+    public GraffitiSpot AssignRandomGraffitiSpot()
+    {
+        foreach(GraffitiSpot gs in Shuffle(_graffitiSpots))
+        {
+            return gs;
+        }
+
+        return null;
     }
 
     private T[] Shuffle<T>(T[] texts)
