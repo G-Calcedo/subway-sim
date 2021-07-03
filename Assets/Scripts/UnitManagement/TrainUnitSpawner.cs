@@ -11,6 +11,7 @@ public class TrainUnitSpawner : MonoBehaviour
     public int minBatch, maxBatch;
 
     private TrainBehaviour train;
+    public ClockTimer controlTime;
 
     private void Awake()
     {
@@ -22,17 +23,21 @@ public class TrainUnitSpawner : MonoBehaviour
     {
         int limit = Random.Range(minBatch, maxBatch);
 
-        for(int i = 0; i < limit; i++)
+        if (Mathf.Floor(controlTime.dayTimerNormalized * controlTime.hoursDay) >= 8f)
         {
-            if (Random.Range(0, 100) < 5 && SubwayStation.main.IsMusicianSpotAvailable())
+            for (int i = 0; i < limit; i++)
             {
-                SpawnMusician();
-            }
-            else
-            {
-                SpawnPassenger();
+                if (Random.Range(0, 100) < 5 && SubwayStation.main.IsMusicianSpotAvailable())
+                {
+                    SpawnMusician();
+                }
+                else
+                {
+                    SpawnPassenger();
+                }
             }
         }
+
     }
 
     private void SpawnPassenger()

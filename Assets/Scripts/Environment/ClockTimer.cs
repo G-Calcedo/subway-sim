@@ -9,13 +9,13 @@ public class ClockTimer : MonoBehaviour
     public float speed_Timer;
     public Text timeText;
     private float dayTimer;
-    private float hoursDay = 24f;
+    public float hoursDay = 24f;
     private float minutesHour = 60f;
-
+    public float dayTimerNormalized;
     // Start is called before the first frame update
     void Start()
     {
-
+        dayTimer = Random.Range(0.0000f, 1.0000f);
     }
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class ClockTimer : MonoBehaviour
     {
         dayTimer += Time.deltaTime / speed_Timer;
 
-        float dayTimerNormalized = dayTimer % 1f;
+        dayTimerNormalized = dayTimer % 1f;
 
         string hours_text = Mathf.Floor(dayTimerNormalized * hoursDay).ToString("00");
         string minute_text = Mathf.Floor(((dayTimerNormalized * hoursDay) % 1f) * minutesHour).ToString("00");

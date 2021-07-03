@@ -13,6 +13,7 @@ public class UnitSpawner : MonoBehaviour
     private float spawnTime;
 
     public Action<GameObject> OnUnitSpawned;
+    public ClockTimer controlTime;
 
     private void Start()
     {
@@ -21,7 +22,7 @@ public class UnitSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (spawnTime <= 0 && SubwayStation.main.IsTicketMachineAvailable() && SubwayStation.main.IsTurnstileAvailable())
+        if (spawnTime <= 0 && SubwayStation.main.IsTicketMachineAvailable() && SubwayStation.main.IsTurnstileAvailable() && (Mathf.Floor(controlTime.dayTimerNormalized * controlTime.hoursDay) >= 7f))   
         {
             if (UnityEngine.Random.Range(0, 100) < 5 && SubwayStation.main.IsMusicianSpotAvailable())
             {
