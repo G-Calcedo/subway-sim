@@ -12,10 +12,16 @@ public class UnitNoTicketSpawner : MonoBehaviour
 
     public Action<GameObject> OnUnitSpawned;
 
+    private void Start()
+    {
+        spawnTime = UnityEngine.Random.Range(minSpawnRate, maxSpawnRate);
+    }
+
     private void Update()
     {
-        if (spawnTime <= 0)
+        if (spawnTime <= 0 && SubwayStation.main.cleanerCount < 10)
         {
+            SubwayStation.main.cleanerCount++;
             GameObject spawnedUnit = Instantiate(unit, transform.position, Quaternion.identity);
             OnUnitSpawned?.Invoke(spawnedUnit);
 

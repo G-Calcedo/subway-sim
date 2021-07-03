@@ -70,7 +70,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wanderRadius: 100
-  wanderTimer: 1
+  wanderTimer: 7
+  active: 0
 --- !u!114 &1947291949960289772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,6 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sweeper_1: {fileID: 3621609939539291789}
   sweeper_2: {fileID: 5910529779630174220}
+  currentTrash: {fileID: 0}
 --- !u!1001 &4504693489728902108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -151,6 +153,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 9c30176b8014fa54f8839b299fa8bb71, type: 3}
       propertyPath: m_Name
       value: Sweeper_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9c30176b8014fa54f8839b299fa8bb71, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c30176b8014fa54f8839b299fa8bb71, type: 3}

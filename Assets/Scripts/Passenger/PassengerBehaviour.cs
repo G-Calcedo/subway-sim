@@ -20,6 +20,8 @@ public class PassengerBehaviour : TrainUserBehaviour
 
     public GameObject trash;
 
+    private bool hasThanked;
+
     private void Awake()
     {
         passengerBT = new BehaviourTreeEngine();
@@ -69,6 +71,12 @@ public class PassengerBehaviour : TrainUserBehaviour
             {
                 movement.SetDestination(assignedPlatformPosition);
                 movement.ResumeMovement();
+
+                if (hasThanked)
+                {
+                    assignedMusician.musicianSM.Fire("Thank");
+                    hasThanked = false;
+                }
                 assignedMusician = null;
             });
 
@@ -89,6 +97,7 @@ public class PassengerBehaviour : TrainUserBehaviour
                     Vector3 ba = (b - a).normalized;
                     movement.SetDestination(assignedMusician.hat.transform.position + ba * 1.5f);
                     movement.ResumeMovement();
+                    hasThanked = true;
                 }
                 else
                 {
@@ -99,9 +108,8 @@ public class PassengerBehaviour : TrainUserBehaviour
         State throwTrash = passengerSM.CreateState("ThrowTrash",
             () =>
             {
-                if(Random.Range(0, 100) < 100)
+                if(Random.Range(0, 100) < 10 && !IsTrashNear() && movement.IsMoving())
                 {
-                    Debug.Log("MIERDA!");
                     GameObject spawnedTrash = Instantiate(trash, transform.position, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)));
                     spawnedTrash.transform.localScale *= Random.Range(1f, 1.5f);
                 } 
@@ -137,5 +145,15 @@ public class PassengerBehaviour : TrainUserBehaviour
     {
         passengerBT.Update();
         passengerSM.Update();
+    }
+
+    private bool IsTrashNear()
+    {
+        foreach (Collider c in Physics.OverlapSphere(transform.position, 1))
+        {
+            if (c.CompareTag("Trash")) return true;
+        }
+
+        return false;
     }
 }

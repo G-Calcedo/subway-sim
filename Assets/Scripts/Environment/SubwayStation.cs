@@ -22,6 +22,10 @@ public class SubwayStation : MonoBehaviour
     public GameObject musicianSpots;
     private MusicianSpot[] _musicianSpots;
 
+    public int cleanerCount;
+    public GameObject cleanerSpots;
+    private Transform[] _cleanerSpots;
+
     private void Awake()
     {
         main = this;
@@ -29,6 +33,7 @@ public class SubwayStation : MonoBehaviour
         _ticketMachines = ticketMachines.GetComponentsInChildren<TicketMachine>();
         _turnstiles = turnstiles.GetComponentsInChildren<Turnstile>();
         _musicianSpots = musicianSpots.GetComponentsInChildren<MusicianSpot>();
+        _cleanerSpots = cleanerSpots.GetComponentsInChildren<Transform>();
     }
 
     public Vector3 GetRandomPlatformPosition()
@@ -114,6 +119,24 @@ public class SubwayStation : MonoBehaviour
         }
 
         return null;
+    }
+
+    public Vector3 NearestCleanerSpot(Vector3 origin)
+    {
+        Vector3 spot = Vector3.zero;
+        float distance = Mathf.Infinity;
+
+        foreach(Transform sp in _cleanerSpots)
+        {
+            float currentDistance = Vector3.Distance(origin, sp.position);
+            if(currentDistance < distance)
+            {
+                spot = sp.position;
+                distance = currentDistance;
+            }
+        }
+
+        return spot;
     }
 
     private T[] Shuffle<T>(T[] texts)

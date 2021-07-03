@@ -12,7 +12,7 @@ public class MusicianBehaviour : TrainUserBehaviour
     public GameObject walk, playing, hat;
 
     private BehaviourTreeEngine musicianBT;
-    private StateMachineEngine musicianSM;
+    public StateMachineEngine musicianSM;
 
     public bool isPlaying;
     //private BasicMovement movement;
