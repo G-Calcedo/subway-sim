@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ClockTimer : MonoBehaviour
 {
     //Segundos reales equivalentes a 24 horas en el juego
@@ -13,9 +14,13 @@ public class ClockTimer : MonoBehaviour
     private float minutesHour = 60f;
     public float dayTimerNormalized;
     // Start is called before the first frame update
+    public LightController lightSource;
+    public bool isDayTime;
+
     void Start()
     {
-        dayTimer = Random.Range(0.0000f, 1.0000f);
+        //dayTimer = Random.Range(0.0000f, 1.0000f);
+        dayTimer = 23f / 24f;
     }
 
     // Update is called once per frame
@@ -30,5 +35,16 @@ public class ClockTimer : MonoBehaviour
 
         timeText.text = hours_text + " : " + minute_text;
 
+        if(dayTimerNormalized * hoursDay < 9 && isDayTime)
+        {
+            lightSource.NightTransition();
+            isDayTime = !isDayTime;
+        }
+
+        if (dayTimerNormalized * hoursDay >= 9f && !isDayTime)
+        {
+            lightSource.DayTransition();
+            isDayTime = !isDayTime;
+        }
     }
 }

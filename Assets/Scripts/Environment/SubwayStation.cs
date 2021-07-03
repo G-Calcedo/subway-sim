@@ -22,9 +22,13 @@ public class SubwayStation : MonoBehaviour
     public GameObject musicianSpots;
     private MusicianSpot[] _musicianSpots;
 
-    public int cleanerCount;
+    public int cleanerCount, guardCount;
     //public GameObject cleanerSpots;
     public Transform[] _cleanerSpots;
+
+    public ClockTimer timeControl;
+
+    public Reception reception;
 
     private void Awake()
     {

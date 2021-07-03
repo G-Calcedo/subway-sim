@@ -37,15 +37,21 @@ public class PassengerBehaviour : TrainUserBehaviour
         if (fromOutside)
         {
 
-            if (Random.Range(0, 100) < 0)
+            if (Random.Range(0, 100) < 10 && !SubwayStation.main.reception.inUse)
             {
+                SubwayStation.main.reception.inUse = true;
+
                 mainSequence.AddChild(passengerBT.CreateLeafNode("AskingReceptionist",
                 () => movement.SetDestination(SubwayStation.main.receptionist.position + new Vector3(0, 0, 2f)),
                 () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
 
                 //Timer recepcion
                 mainSequence.AddChild(passengerBT.CreateTimerNode("VamosJose", passengerBT.CreateLeafNode("BuyingTicket",
-                () => movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position),
+                () =>
+                {
+                    SubwayStation.main.reception.inUse = false;
+                    movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position);
+                },
                 () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 1f));
             }
             else
@@ -114,11 +120,11 @@ public class PassengerBehaviour : TrainUserBehaviour
         State throwTrash = passengerSM.CreateState("ThrowTrash",
             () =>
             {
-                if(Random.Range(0, 100) < 10 && !IsValidZone() && movement.IsMoving())
+                if (Random.Range(0, 100) < 10 && !IsValidZone() && movement.IsMoving())
                 {
                     GameObject spawnedTrash = Instantiate(trash, transform.position, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)));
                     spawnedTrash.transform.localScale *= Random.Range(1f, 1.5f);
-                } 
+                }
             });
 
         Perception platformReached = passengerSM.CreatePerception<ValuePerception>(() => readyToBoard);

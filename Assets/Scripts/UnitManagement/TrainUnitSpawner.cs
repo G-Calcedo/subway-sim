@@ -11,7 +11,6 @@ public class TrainUnitSpawner : MonoBehaviour
     public int minBatch, maxBatch;
 
     private TrainBehaviour train;
-    public ClockTimer controlTime;
 
     private void Awake()
     {
@@ -23,7 +22,8 @@ public class TrainUnitSpawner : MonoBehaviour
     {
         int limit = Random.Range(minBatch, maxBatch);
 
-        if (Mathf.Floor(controlTime.dayTimerNormalized * controlTime.hoursDay) >= 8f)
+        if (Mathf.Floor(SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay) >= 8f &&
+            Mathf.Floor(SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay) < 20f)
         {
             for (int i = 0; i < limit; i++)
             {

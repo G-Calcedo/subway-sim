@@ -33,6 +33,10 @@ public class TrainBehaviour : MonoBehaviour
         Perception stationEntered = trainSM.CreatePerception<PushPerception>();
         Perception stationExited = trainSM.CreatePerception<PushPerception>();
         Perception departureReady = trainSM.CreatePerception<ValuePerception>(() => passengersLeft == 0);
+        Perception dayTime = trainSM.CreatePerception<ValuePerception>(() =>
+         (SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay > 8f) ||
+         (SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay < 1f));
+        //Perception trainOnService = trainSM.CreateAndPerception<AndPerception>(timer, dayTime);
 
         State onTravel = trainSM.CreateEntryState("OnTravel", () =>
         {
@@ -67,12 +71,17 @@ public class TrainBehaviour : MonoBehaviour
                 trainSM.Fire(stationExited);
             });
         });
+        State serviceCheck = trainSM.CreateState("ServiceCheck", () =>
+        {
+            rend.enabled = false;
+        });
 
         trainSM.CreateTransition("Enter", onTravel, timer, enterStation);
         trainSM.CreateTransition("EnterFinished", enterStation, stationEntered, passengerLeave);
         trainSM.CreateTransition("ReadyToBoard", passengerLeave, passengersLeftTimer, onStation);
         trainSM.CreateTransition("Exit", onStation, departureReady, exitStation);
-        trainSM.CreateTransition("ExitFinished", exitStation, stationExited, onTravel);
+        trainSM.CreateTransition("ExitFinished", exitStation, stationExited, serviceCheck);
+        trainSM.CreateTransition("Service", serviceCheck, dayTime, onTravel);
     }
 
     private void Update()
@@ -85,10 +94,10 @@ public class TrainBehaviour : MonoBehaviour
         Vector3 closestEntrance = passengerPos;
         float closestDistance = Mathf.Infinity;
 
-        foreach(Transform entrance in entryPoints.transform)
+        foreach (Transform entrance in entryPoints.transform)
         {
             float distance = Vector3.Distance(passengerPos, entrance.position);
-            if(distance < closestDistance)
+            if (distance < closestDistance)
             {
                 closestDistance = distance;
                 closestEntrance = entrance.position;
