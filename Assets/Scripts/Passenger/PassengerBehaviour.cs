@@ -22,7 +22,7 @@ public class PassengerBehaviour : TrainUserBehaviour
 
     private bool hasThanked;
 
-    private void Awake()
+    private void Start()
     {
         passengerBT = new BehaviourTreeEngine();
         passengerSM = new StateMachineEngine(true);
@@ -32,39 +32,45 @@ public class PassengerBehaviour : TrainUserBehaviour
 
         SequenceNode mainSequence = passengerBT.CreateSequenceNode("MainSequence", false);
 
-        if (Random.Range(0, 100) < 0)
-        {
-            mainSequence.AddChild(passengerBT.CreateLeafNode("AskingReceptionist",
-            () => movement.SetDestination(SubwayStation.main.receptionist.position + new Vector3(0, 0, 2f)),
-            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+        assignedPlatformPosition = SubwayStation.main.GetRandomPlatformPosition(spawnPlatform);
 
-            //Timer recepcion
-            mainSequence.AddChild(passengerBT.CreateTimerNode("VamosJose", passengerBT.CreateLeafNode("BuyingTicket",
-            () => movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position),
-            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 1f));
-        }
-        else
+        if (fromOutside)
         {
-            mainSequence.AddChild(passengerBT.CreateLeafNode("BuyingTicket",
+
+            if (Random.Range(0, 100) < 0)
+            {
+                mainSequence.AddChild(passengerBT.CreateLeafNode("AskingReceptionist",
+                () => movement.SetDestination(SubwayStation.main.receptionist.position + new Vector3(0, 0, 2f)),
+                () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+
+                //Timer recepcion
+                mainSequence.AddChild(passengerBT.CreateTimerNode("VamosJose", passengerBT.CreateLeafNode("BuyingTicket",
                 () => movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position),
+                () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 1f));
+            }
+            else
+            {
+                mainSequence.AddChild(passengerBT.CreateLeafNode("BuyingTicket",
+                    () => movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position),
+                    () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+            }
+            mainSequence.AddChild(passengerBT.CreateTimerNode("TicketDelay", passengerBT.CreateLeafNode("MoveToTurnstile",
+                () =>
+                {
+                    assignedTicketMachine.InUse = false;
+                    movement.SetDestination(assignedTurnstile.entryPoint.transform.position);
+                },
+                () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 0.01f));
+
+            mainSequence.AddChild(passengerBT.CreateLeafNode("PassTurnstile",
+                () =>
+                {
+                    assignedTurnstile.InUse = false;
+                    //assignedPlatformPosition = SubwayStation.main.GetRandomPlatformPosition();
+                    movement.SetDestination(transform.position + new Vector3(4, 0, 0));
+                },
                 () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
         }
-        mainSequence.AddChild(passengerBT.CreateTimerNode("TicketDelay", passengerBT.CreateLeafNode("MoveToTurnstile",
-            () =>
-            {
-                assignedTicketMachine.InUse = false;
-                movement.SetDestination(assignedTurnstile.entryPoint.transform.position);
-            },
-            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 0.01f));
-
-        mainSequence.AddChild(passengerBT.CreateLeafNode("PassTurnstile",
-            () =>
-            {
-                assignedTurnstile.InUse = false;
-                assignedPlatformPosition = SubwayStation.main.GetRandomPlatformPosition();
-                movement.SetDestination(transform.position + new Vector3(4, 0, 0));
-            },
-            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
 
         State goToDestination = passengerSM.CreateEntryState("GoToDestination",
             () =>
@@ -90,7 +96,7 @@ public class PassengerBehaviour : TrainUserBehaviour
         State giveMoney = passengerSM.CreateState("GiveMoney",
             () =>
             {
-                if (Random.Range(0, 100) < 50 && assignedMusician.isPlaying)
+                if (Random.Range(0, 100) < 30 && assignedMusician.isPlaying)
                 {
                     Vector3 a = assignedMusician.hat.transform.position;
                     Vector3 b = transform.position;
@@ -108,7 +114,7 @@ public class PassengerBehaviour : TrainUserBehaviour
         State throwTrash = passengerSM.CreateState("ThrowTrash",
             () =>
             {
-                if(Random.Range(0, 100) < 10 && !IsTrashNear() && movement.IsMoving())
+                if(Random.Range(0, 100) < 10 && !IsValidZone() && movement.IsMoving())
                 {
                     GameObject spawnedTrash = Instantiate(trash, transform.position, Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0)));
                     spawnedTrash.transform.localScale *= Random.Range(1f, 1.5f);
@@ -147,11 +153,11 @@ public class PassengerBehaviour : TrainUserBehaviour
         passengerSM.Update();
     }
 
-    private bool IsTrashNear()
+    private bool IsValidZone()
     {
-        foreach (Collider c in Physics.OverlapSphere(transform.position, 1))
+        foreach (Collider c in Physics.OverlapSphere(transform.position, 2))
         {
-            if (c.CompareTag("Trash")) return true;
+            if (c.CompareTag("Trash") || c.CompareTag("Musician")) return true;
         }
 
         return false;

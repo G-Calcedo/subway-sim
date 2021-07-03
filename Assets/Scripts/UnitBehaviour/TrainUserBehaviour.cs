@@ -10,6 +10,9 @@ public class TrainUserBehaviour : MonoBehaviour
     public Turnstile assignedTurnstile;
     public Platform CurrentPlatform;
     public bool readyToBoard;
+    public bool fromOutside;
+
+    public Platform spawnPlatform;
 
     private void Awake()
     {

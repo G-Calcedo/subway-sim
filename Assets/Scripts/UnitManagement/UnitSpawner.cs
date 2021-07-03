@@ -51,6 +51,7 @@ public class UnitSpawner : MonoBehaviour
         passenger.assignedTicketMachine.InUse = true;
         passenger.assignedTurnstile = SubwayStation.main.AssignRandomTurnstile();
         passenger.assignedTurnstile.InUse = true;
+        passenger.fromOutside = true;
     }
 
     private void SpawnMusician()
@@ -64,5 +65,6 @@ public class UnitSpawner : MonoBehaviour
         musician.assignedTurnstile.InUse = true;
         musician.assignedMusicianSpot = SubwayStation.main.AssignRandomMusicianSpot();
         musician.assignedMusicianSpot.InUse = true;
+        musician.fromOutside = true;
     }
 }

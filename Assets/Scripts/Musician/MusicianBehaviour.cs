@@ -28,25 +28,28 @@ public class MusicianBehaviour : TrainUserBehaviour
 
         SequenceNode mainSequence = musicianBT.CreateSequenceNode("MainSequence", false);
 
-        mainSequence.AddChild(musicianBT.CreateLeafNode("BuyingTicket",
-               () => movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position),
-               () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+        if (fromOutside)
+        {
+            mainSequence.AddChild(musicianBT.CreateLeafNode("BuyingTicket",
+                   () => movement.SetDestination(assignedTicketMachine.ticketPoint.transform.position),
+                   () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
 
-        mainSequence.AddChild(musicianBT.CreateTimerNode("TicketDelay", musicianBT.CreateLeafNode("MoveToTurnstile",
+            mainSequence.AddChild(musicianBT.CreateTimerNode("TicketDelay", musicianBT.CreateLeafNode("MoveToTurnstile",
+                    () =>
+                    {
+                        assignedTicketMachine.InUse = false;
+                        movement.SetDestination(assignedTurnstile.entryPoint.transform.position);
+                    },
+                    () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 0.01f));
+
+            mainSequence.AddChild(musicianBT.CreateLeafNode("PassTurnstile",
                 () =>
                 {
-                    assignedTicketMachine.InUse = false;
-                    movement.SetDestination(assignedTurnstile.entryPoint.transform.position);
+                    assignedTurnstile.InUse = false;
+                    movement.SetDestination(transform.position + new Vector3(4, 0, 0));
                 },
-                () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed), 0.01f));
-
-        mainSequence.AddChild(musicianBT.CreateLeafNode("PassTurnstile",
-            () =>
-            {
-                assignedTurnstile.InUse = false;
-                movement.SetDestination(transform.position + new Vector3(4, 0, 0));
-            },
-            () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+                () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+        }
 
         mainSequence.AddChild(musicianBT.CreateLeafNode("MoveToSpot",
             () => movement.SetDestination(assignedMusicianSpot.transform.position),
@@ -56,13 +59,13 @@ public class MusicianBehaviour : TrainUserBehaviour
             () =>
             {
                 transform.DORotate(assignedMusicianSpot.alignment, 0.1f);
-                InvokeRepeating(nameof(AtractPassengers), 0, 0.5f);
+                InvokeRepeating(nameof(AtractPassengers), 0, 1.5f);
             },
             () => ReturnValues.Succeed));
 
         Perception moneyReceived = musicianSM.CreatePerception<PushPerception>();
         Perception keepPlaying = musicianSM.CreatePerception<TimerPerception>(0.5f);
-        Perception stopPlaying = musicianSM.CreatePerception<TimerPerception>(30);
+        Perception stopPlaying = musicianSM.CreatePerception<TimerPerception>(20);
 
         Tween musicAnim = null;
 
@@ -106,7 +109,7 @@ public class MusicianBehaviour : TrainUserBehaviour
             () => ReturnValues.Succeed));
 
         mainSequence.AddChild(musicianBT.CreateLeafNode("MoveToDestination",
-           () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition()),
+           () => movement.SetDestination(SubwayStation.main.GetRandomPlatformPosition(spawnPlatform)),
            () => readyToBoard ? ReturnValues.Succeed : ReturnValues.Running));
 
         //mainSequence.AddChild(musicianBT.CreateLeafNode("WaitingForTrain",
@@ -128,9 +131,9 @@ public class MusicianBehaviour : TrainUserBehaviour
 
     private void AtractPassengers()
     {
-        foreach (Collider passenger in Physics.OverlapSphere(transform.position, 15))
+        foreach (Collider passenger in Physics.OverlapSphere(transform.position, 10))
         {
-            if (passenger.CompareTag("Passenger") && Random.Range(0, 100) < 10)
+            if (passenger.CompareTag("Passenger") && Random.Range(0, 100) < 30)
             {
                 PassengerBehaviour pb = passenger.GetComponent<PassengerBehaviour>();
 

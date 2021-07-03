@@ -15,7 +15,7 @@ public class GraffitiBehaviour : MonoBehaviour
     {
         graffitiBT = new BehaviourTreeEngine();
         movement = GetComponent<BasicMovement>();
-
+        /*
         SequenceNode graffitiSequence = graffitiBT.CreateSequenceNode("GraffitiSequence", false);
 
         graffitiSequence.AddChild(graffitiBT.CreateLeafNode("MoveToDestination",
@@ -28,6 +28,7 @@ public class GraffitiBehaviour : MonoBehaviour
 
         graffitiSequence.AddChild(graffitiBT.CreateLeafNode("Scape", () => movement.SetDestination(SubwayStation.main.exit.position),
             () => movement.IsMoving() ? ReturnValues.Running : ReturnValues.Succeed));
+        */
     }
 
     // Update is called once per frame

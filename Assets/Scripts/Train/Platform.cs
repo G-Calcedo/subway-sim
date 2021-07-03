@@ -15,6 +15,8 @@ public class Platform : MonoBehaviour
         platformCollider = GetComponent<BoxCollider>();
         passengers = new List<TrainUserBehaviour>();
 
+        train.platform = this;
+
         train.OnArrival += () =>
         {
             train.passengersLeft = passengers.Count;
@@ -27,6 +29,9 @@ public class Platform : MonoBehaviour
         if (other.CompareTag("Passenger") || other.CompareTag("Musician"))
         {
             TrainUserBehaviour passenger = other.gameObject.GetComponent<TrainUserBehaviour>();
+
+            if (ReferenceEquals(this, passenger.spawnPlatform)) return;
+
             if (passenger.CurrentPlatform is null)
             {
                 passenger.CurrentPlatform = this;
@@ -49,7 +54,10 @@ public class Platform : MonoBehaviour
     {
         foreach(TrainUserBehaviour passenger in passengers)
         {
-            passenger.readyToBoard = true;
+            if (!ReferenceEquals(this, passenger.spawnPlatform))
+            {
+                passenger.readyToBoard = true;
+            }
         }
 
         passengers.Clear();

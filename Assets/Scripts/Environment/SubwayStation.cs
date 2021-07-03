@@ -36,11 +36,22 @@ public class SubwayStation : MonoBehaviour
         _cleanerSpots = cleanerSpots.GetComponentsInChildren<Transform>();
     }
 
-    public Vector3 GetRandomPlatformPosition()
+    public Vector3 GetRandomPlatformPosition(Platform spawnPlatform)
     {
-        Platform randomPlatform = _platforms[UnityEngine.Random.Range(0, _platforms.Length)];
+        if(spawnPlatform is null)
+        {
+            Platform randomPlatform = _platforms[UnityEngine.Random.Range(0, _platforms.Length)];
 
-        return randomPlatform.GetRandomPosition();
+            return randomPlatform.GetRandomPosition();
+        }
+
+        foreach (Platform p in Shuffle(_platforms))
+        {
+            if(!ReferenceEquals(p, spawnPlatform))
+                return p.GetRandomPosition();
+        }
+
+        return Vector3.zero;
     }
 
     public bool IsTicketMachineAvailable()

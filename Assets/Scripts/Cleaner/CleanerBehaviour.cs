@@ -29,6 +29,7 @@ public class CleanerBehaviour : MonoBehaviour
 
         State movingCharacter = cleanerSM.CreateEntryState("Moving", () =>
         {
+            cleanAnim.Kill();
             CancelInvoke();
             randomMovement.active = true;
             sweeper_2.SetActive(false);
@@ -61,6 +62,7 @@ public class CleanerBehaviour : MonoBehaviour
         State goBackHome = cleanerSM.CreateState("GoBackHome",
             () =>
             {
+                cleanAnim.Kill();
                 CancelInvoke();
                 randomMovement.active = false;
                 sweeper_1.SetActive(true);
