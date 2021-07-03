@@ -20,7 +20,21 @@ public class UnitNoTicketSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (spawnTime <= 0 && SubwayStation.main.cleanerCount < 10 && ( (Mathf.Floor(controlTime.dayTimerNormalized * controlTime.hoursDay) <= 2f) || Mathf.Floor(controlTime.dayTimerNormalized * controlTime.hoursDay) >= 8f))
+        if (unit.CompareTag("Cleaner"))
+        {
+            spawnCleaner();
+        } else if (unit.CompareTag("SecurityGuard"))
+        {
+            spawnSecurityGuard();
+        }
+
+        spawnTime -= Time.deltaTime;
+    }
+
+
+    public void spawnCleaner()
+    {
+        if (spawnTime <= 0 && SubwayStation.main.cleanerCount < 10 && ((Mathf.Floor(controlTime.dayTimerNormalized * controlTime.hoursDay) <= 2f) || Mathf.Floor(controlTime.dayTimerNormalized * controlTime.hoursDay) >= 8f))
         {
             SubwayStation.main.cleanerCount++;
             GameObject spawnedUnit = Instantiate(unit, transform.position, Quaternion.identity);
@@ -29,6 +43,18 @@ public class UnitNoTicketSpawner : MonoBehaviour
             spawnTime = UnityEngine.Random.Range(minSpawnRate, maxSpawnRate);
         }
 
-        spawnTime -= Time.deltaTime;
+    }
+
+    public void spawnSecurityGuard()
+    {
+        if (spawnTime <= 0 && SubwayStation.main.cleanerCount < 10 && ((Mathf.Floor(controlTime.dayTimerNormalized * controlTime.hoursDay) >= 20f) || Mathf.Floor(controlTime.dayTimerNormalized * controlTime.hoursDay) <= 6f))
+        {
+            SubwayStation.main.cleanerCount++;
+            GameObject spawnedUnit = Instantiate(unit, transform.position, Quaternion.identity);
+            OnUnitSpawned?.Invoke(spawnedUnit);
+
+            spawnTime = UnityEngine.Random.Range(minSpawnRate, maxSpawnRate);
+        }
+
     }
 }

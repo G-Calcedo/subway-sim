@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2173067639632920831}
   m_Layer: 0
   m_Name: SecurityGuard
-  m_TagString: Untagged
+  m_TagString: SecurityGuard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,8 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7855aec024aacf49b46c517a34b7c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wanderRadius: 100000
-  wanderTimer: 0.1
+  wanderRadius: 100
+  wanderTimer: 7
+  active: 0
 --- !u!1001 &3560207635620272315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103,7 +104,7 @@ PrefabInstance:
     - target: {fileID: -6400281290468069383, guid: 3c136d0ab79df0045ac6269721230a05, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -4372354588213506609, guid: 45bf117d669fd8f4692e20c50011f7fa, type: 3}
+      objectReference: {fileID: 3846258609533492468, guid: 0ccf84730d465c4408cf84a169785e20, type: 3}
     - target: {fileID: 919132149155446097, guid: 3c136d0ab79df0045ac6269721230a05, type: 3}
       propertyPath: m_Name
       value: Model
