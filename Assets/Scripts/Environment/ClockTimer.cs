@@ -10,6 +10,7 @@ public class ClockTimer : MonoBehaviour
     public float speed_Timer;
     public Text timeText;
     private float dayTimer;
+    public float startTime;
     public float hoursDay = 24f;
     private float minutesHour = 60f;
     public float dayTimerNormalized;
@@ -20,7 +21,7 @@ public class ClockTimer : MonoBehaviour
     void Start()
     {
         //dayTimer = Random.Range(0.0000f, 1.0000f);
-        dayTimer = 23f / 24f;
+        dayTimer = startTime / 24f;
     }
 
     // Update is called once per frame

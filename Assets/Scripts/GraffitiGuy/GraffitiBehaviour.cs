@@ -13,11 +13,11 @@ public class GraffitiBehaviour : MonoBehaviour
         movement = GetComponent<BasicMovement>();
 
         State goToDestination = graffitiSM.CreateEntryState("GoToDestination",
-            () => { });
+            () => movement.SetDestination(SubwayStation.main.AssignRandomGraffitiSpot().transform.position));
     }
 
     void Update()
     {
-        
+        graffitiSM.Update();
     }
 }

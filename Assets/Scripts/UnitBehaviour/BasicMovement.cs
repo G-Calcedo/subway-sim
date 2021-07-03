@@ -54,4 +54,12 @@ public class BasicMovement : MonoBehaviour
 
         return true;
     }
+
+    public bool NearTarget(float threshold)
+    {
+        Vector3 a = new Vector3(target.x, 0, target.z);
+        Vector3 b = new Vector3(transform.position.x, 0, transform.position.z);
+
+        return Vector3.Distance(a, b) <= threshold;
+    }
 }

@@ -23,7 +23,9 @@ public class CleanerBehaviour : MonoBehaviour
         Perception trashFound = cleanerSM.CreatePerception<ValuePerception>(() => !(currentTrash is null));
         Perception sweepingTrash = cleanerSM.CreatePerception<TimerPerception>(1);
         Perception workingShift = cleanerSM.CreatePerception<TimerPerception>(30);
-        Perception startResting = cleanerSM.CreatePerception<ValuePerception>(() => !randomMovement.IsMoving());
+        Perception stationClosed = cleanerSM.CreatePerception<ValuePerception>(() => SubwayStation.main.GetDayHour() >= 1 && SubwayStation.main.GetDayHour() <= 5);
+        Perception workingPerc = cleanerSM.CreateOrPerception<OrPerception>(workingShift, stationClosed);
+        Perception startResting = cleanerSM.CreatePerception<ValuePerception>(() => randomMovement.NearTarget(1));
 
         Tween cleanAnim = null;
 
@@ -80,7 +82,7 @@ public class CleanerBehaviour : MonoBehaviour
         cleanerSM.CreateTransition("Move", movingCharacter, trashFound, GoingToTrash);
         cleanerSM.CreateTransition("Go", GoingToTrash, isWalking, SweepingTrash);
         cleanerSM.CreateTransition("Clean", SweepingTrash, sweepingTrash, movingCharacter);
-        cleanerSM.CreateTransition("EndWorkingShift", movingCharacter, workingShift, goBackHome);
+        cleanerSM.CreateTransition("EndWorkingShift", movingCharacter, workingPerc, goBackHome);
         cleanerSM.CreateTransition("Rest", goBackHome, startResting, rest);
     }
 

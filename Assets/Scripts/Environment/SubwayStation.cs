@@ -31,7 +31,7 @@ public class SubwayStation : MonoBehaviour
     public Reception reception;
 
     public GameObject graffitiSpots;
-    private GraffitiSpot[] _graffitiSpots;
+    public GraffitiSpawner[] _graffitiSpots;
 
     private void Awake()
     {
@@ -41,7 +41,7 @@ public class SubwayStation : MonoBehaviour
         _turnstiles = turnstiles.GetComponentsInChildren<Turnstile>();
         _musicianSpots = musicianSpots.GetComponentsInChildren<MusicianSpot>();
         // _cleanerSpots = cleanerSpots.GetComponentsInChildren<Transform>();
-        _graffitiSpots = graffitiSpots.GetComponentsInChildren<GraffitiSpot>();
+        _graffitiSpots = graffitiSpots.GetComponentsInChildren<GraffitiSpawner>();
     }
 
     public Vector3 GetRandomPlatformPosition(Platform spawnPlatform)
@@ -158,14 +158,19 @@ public class SubwayStation : MonoBehaviour
         return spot;
     }
 
-    public GraffitiSpot AssignRandomGraffitiSpot()
+    public GraffitiSpawner AssignRandomGraffitiSpot()
     {
-        foreach(GraffitiSpot gs in Shuffle(_graffitiSpots))
+        foreach(GraffitiSpawner gs in Shuffle(_graffitiSpots))
         {
             return gs;
         }
 
         return null;
+    }
+
+    public float GetDayHour()
+    {
+        return Mathf.Floor(timeControl.dayTimerNormalized * timeControl.hoursDay);
     }
 
     private T[] Shuffle<T>(T[] texts)

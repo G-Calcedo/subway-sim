@@ -35,11 +35,10 @@ public class UnitNoTicketSpawner : MonoBehaviour
     public void spawnCleaner()
     {
         if (spawnTime <= 0 && SubwayStation.main.cleanerCount < 10 &&
-            ((Mathf.Floor(SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay) <= 2f)
-            || Mathf.Floor(SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay) >= 8f))
+            (Mathf.Floor(SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay) >= 8f))
         {
             SubwayStation.main.cleanerCount++;
-            GameObject spawnedUnit = Instantiate(unit, transform.position, Quaternion.identity);
+            GameObject spawnedUnit = Instantiate(unit, transform.position, transform.rotation);
             OnUnitSpawned?.Invoke(spawnedUnit);
 
             spawnTime = UnityEngine.Random.Range(minSpawnRate, maxSpawnRate);
@@ -50,10 +49,10 @@ public class UnitNoTicketSpawner : MonoBehaviour
     public void spawnSecurityGuard()
     {
         if (spawnTime <= 0 && SubwayStation.main.guardCount < 5 &&
-            (Mathf.Floor(SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay) <= 9f))
+            (Mathf.Floor(SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay) <= 7f))
         {
             SubwayStation.main.guardCount++;
-            GameObject spawnedUnit = Instantiate(unit, transform.position, Quaternion.identity);
+            GameObject spawnedUnit = Instantiate(unit, transform.position, transform.rotation);
             OnUnitSpawned?.Invoke(spawnedUnit);
 
             spawnTime = UnityEngine.Random.Range(minSpawnRate, maxSpawnRate);
