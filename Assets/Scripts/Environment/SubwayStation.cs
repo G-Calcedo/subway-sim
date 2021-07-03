@@ -23,8 +23,8 @@ public class SubwayStation : MonoBehaviour
     private MusicianSpot[] _musicianSpots;
 
     public int cleanerCount;
-    public GameObject cleanerSpots;
-    private Transform[] _cleanerSpots;
+    //public GameObject cleanerSpots;
+    public Transform[] _cleanerSpots;
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class SubwayStation : MonoBehaviour
         _ticketMachines = ticketMachines.GetComponentsInChildren<TicketMachine>();
         _turnstiles = turnstiles.GetComponentsInChildren<Turnstile>();
         _musicianSpots = musicianSpots.GetComponentsInChildren<MusicianSpot>();
-        _cleanerSpots = cleanerSpots.GetComponentsInChildren<Transform>();
+       // _cleanerSpots = cleanerSpots.GetComponentsInChildren<Transform>();
     }
 
     public Vector3 GetRandomPlatformPosition(Platform spawnPlatform)
