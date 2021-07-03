@@ -16,13 +16,13 @@ public class GraffitiSpawner : MonoBehaviour
 
     private void Update()
     {
-        if(spawnTime < 0 && SubwayStation.main.GetDayHour() >= 2f && SubwayStation.main.GetDayHour() <= 7f)
+        if(spawnTime < 0 && SubwayStation.main.GetDayHour() >= 2f && SubwayStation.main.GetDayHour() <= 5f)
         {
-            if (Random.Range(0, 100) < 10)
+            if (Random.Range(0, 100) < 20 && SubwayStation.main.IsGraffitiSpotAvailable())
             {
-
-                Instantiate(unit, transform.position, Quaternion.identity);
-
+                GraffitiBehaviour graffitter = Instantiate(unit, transform.position, Quaternion.identity).GetComponent<GraffitiBehaviour>();
+                graffitter.assignedSpot = SubwayStation.main.AssignRandomGraffitiSpot();
+                graffitter.assignedSpot.inUse = true;
             }
             spawnTime = Random.Range(minSpawnRate, maxSpawnRate);
         }

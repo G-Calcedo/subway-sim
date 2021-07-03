@@ -30,8 +30,11 @@ public class SubwayStation : MonoBehaviour
 
     public Reception reception;
 
+    public GameObject graffitiTargets;
+    private GraffitiSpawner[] _graffitiTargets;
+
     public GameObject graffitiSpots;
-    public GraffitiSpawner[] _graffitiSpots;
+    private GraffitiSpot[] _graffitiSpots;
 
     private void Awake()
     {
@@ -41,7 +44,8 @@ public class SubwayStation : MonoBehaviour
         _turnstiles = turnstiles.GetComponentsInChildren<Turnstile>();
         _musicianSpots = musicianSpots.GetComponentsInChildren<MusicianSpot>();
         // _cleanerSpots = cleanerSpots.GetComponentsInChildren<Transform>();
-        _graffitiSpots = graffitiSpots.GetComponentsInChildren<GraffitiSpawner>();
+        _graffitiTargets = graffitiTargets.GetComponentsInChildren<GraffitiSpawner>();
+        _graffitiSpots = graffitiSpots.GetComponentsInChildren<GraffitiSpot>();
     }
 
     public Vector3 GetRandomPlatformPosition(Platform spawnPlatform)
@@ -158,11 +162,37 @@ public class SubwayStation : MonoBehaviour
         return spot;
     }
 
-    public GraffitiSpawner AssignRandomGraffitiSpot()
+    public GraffitiSpawner AssignRandomGraffitiTarget()
     {
-        foreach(GraffitiSpawner gs in Shuffle(_graffitiSpots))
+        foreach(GraffitiSpawner gs in Shuffle(_graffitiTargets))
         {
             return gs;
+        }
+
+        return null;
+    }
+
+    public bool IsGraffitiSpotAvailable()
+    {
+        foreach (GraffitiSpot gs in _graffitiSpots)
+        {
+            if (!gs.inUse)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public GraffitiSpot AssignRandomGraffitiSpot()
+    {
+        foreach (GraffitiSpot gs in Shuffle(_graffitiSpots))
+        {
+            if (!gs.inUse)
+            {
+                return gs;
+            }
         }
 
         return null;
