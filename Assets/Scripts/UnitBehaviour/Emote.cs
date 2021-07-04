@@ -50,7 +50,15 @@ public class Emote : MonoBehaviour
     {
         //transform.LookAt(Camera.main.transform.position);
         transform.position = transform.parent.position + new Vector3(0, 5, 0);
-        transform.rotation = Quaternion.Euler(30, -45, 0);
+
+        if (Camera.main.orthographic)
+        {
+            transform.rotation = Quaternion.Euler(30, -45, 0);
+        }
+        else
+        {
+            transform.LookAt(Camera.main.transform.position);
+        }
         if (lifetime <= 0)
         {
             anim.Kill();
