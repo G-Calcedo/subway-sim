@@ -32,6 +32,7 @@ public class SecurityBehaviour : MonoBehaviour
             {
                 randomMovement.active = true;
                 agent.speed = 10;
+                CancelInvoke(nameof(ScanGraffiters));
                 InvokeRepeating(nameof(ScanGraffiters), 0, 0.1f);
             });
 
@@ -42,6 +43,7 @@ public class SecurityBehaviour : MonoBehaviour
                 agent.speed = 12;
                 //CancelInvoke();
                 randomMovement.active = false;
+                CancelInvoke(nameof(Chase));
                 InvokeRepeating(nameof(Chase), 0, 0.25f);
                 //randomMovement.SetDestination(target.transform.position);
             });
@@ -61,9 +63,9 @@ public class SecurityBehaviour : MonoBehaviour
                 Destroy(gameObject);
             });
 
-        securitySM.CreateTransition("EndWorkingShift", patrol, workingShift, goBackHome);
         securitySM.CreateTransition("ChaseGraffiter", patrol, hasTarget, chase);
         securitySM.CreateTransition("StopChase", chase, hasNoTarget, patrol);
+        securitySM.CreateTransition("EndWorkingShift", patrol, workingShift, goBackHome);
         securitySM.CreateTransition("Rest", goBackHome, startResting, rest);
     }
 
@@ -75,27 +77,33 @@ public class SecurityBehaviour : MonoBehaviour
 
     private void ScanGraffiters()
     {
-        foreach (Collider c in Physics.OverlapBox(scanCenter.position, new Vector3(4, 2, 5)))
+        foreach (Collider c in Physics.OverlapBox(scanCenter.position, new Vector3(5, 2, 5)))
         {
             if (c.CompareTag("Graffiter"))
             {
                 GraffitiBehaviour graffiter = c.GetComponent<GraffitiBehaviour>();
                 graffiter.scapeFrom = this;
                 graffiter.caught = true;
+
+                if (!(target is null)) target.OnDisappear -= StopChase;
+
                 target = graffiter;
+                target.OnDisappear += StopChase;
+
+                break;
             }
         }
     }
 
     private void Chase()
     {
-        target.OnDisappear += StopChase;
         randomMovement.SetDestination(target.transform.position);
     }
 
     private void StopChase()
     {
-        CancelInvoke();
+        CancelInvoke(nameof(Chase));
+        target.OnDisappear -= StopChase;
         target = null;
     }
 }

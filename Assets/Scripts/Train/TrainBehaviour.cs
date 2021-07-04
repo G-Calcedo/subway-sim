@@ -32,7 +32,7 @@ public class TrainBehaviour : MonoBehaviour
         Perception passengersLeftTimer = trainSM.CreatePerception<TimerPerception>(1);
         Perception stationEntered = trainSM.CreatePerception<PushPerception>();
         Perception stationExited = trainSM.CreatePerception<PushPerception>();
-        Perception departureReady = trainSM.CreatePerception<ValuePerception>(() => passengersLeft == 0);
+        Perception departureReady = trainSM.CreatePerception<ValuePerception>(() => passengersLeft <= 0);
         Perception dayTime = trainSM.CreatePerception<ValuePerception>(() =>
          (SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay > 8f) ||
          (SubwayStation.main.timeControl.dayTimerNormalized * SubwayStation.main.timeControl.hoursDay < 1f));

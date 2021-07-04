@@ -14,6 +14,7 @@ public class GraffitiBehaviour : MonoBehaviour
     public Graffiti graffiti;
 
     public bool caught;
+    private bool hasPainted;
 
     private NavMeshAgent agent;
     public Action OnDisappear;
@@ -37,6 +38,8 @@ public class GraffitiBehaviour : MonoBehaviour
         State goToTunnel = graffitiSM.CreateState("GoToTunnel",
             () =>
             {
+                hasPainted = true;
+
                 Graffiti grf = Instantiate(graffiti,
                         assignedSpot.spot.transform.position,
                         assignedSpot.spot.transform.rotation);
@@ -48,6 +51,11 @@ public class GraffitiBehaviour : MonoBehaviour
         State scape = graffitiSM.CreateState("Scape",
             () =>
             {
+                if (!hasPainted)
+                {
+                    assignedSpot.inUse = false;
+                }
+
                 agent.speed = 15;
                 movement.SetDestination(SubwayStation.main.FurthestGraffiterScape(scapeFrom.transform.position));
             });
@@ -60,6 +68,7 @@ public class GraffitiBehaviour : MonoBehaviour
             });
 
         Perception targetReached = graffitiSM.CreatePerception<ValuePerception>(() => !movement.IsMoving());
+        Perception tunnelReached = graffitiSM.CreatePerception<ValuePerception>(() => movement.NearTarget(0.5f));
         Perception graffitiTimer = graffitiSM.CreatePerception<TimerPerception>(2);
         Perception isCaught = graffitiSM.CreatePerception<ValuePerception>(() => caught);
 
@@ -68,8 +77,8 @@ public class GraffitiBehaviour : MonoBehaviour
         graffitiSM.CreateTransition("TryToScapeDraw", drawGraffiti, isCaught, scape);
         graffitiSM.CreateTransition("MoveToTunnel", drawGraffiti, graffitiTimer, goToTunnel);
         graffitiSM.CreateTransition("TryToScapeTunnerl", goToTunnel, isCaught, scape);
-        graffitiSM.CreateTransition("DisappearInTunnel_1", goToTunnel, targetReached, disappear);
-        graffitiSM.CreateTransition("DisappearInTunnel_2", scape, targetReached, disappear);
+        graffitiSM.CreateTransition("DisappearInTunnel_1", goToTunnel, tunnelReached, disappear);
+        graffitiSM.CreateTransition("DisappearInTunnel_2", scape, tunnelReached, disappear);
     }
 
     void Update()

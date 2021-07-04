@@ -2078,8 +2078,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1 &193846779
 GameObject:
   m_ObjectHideFlags: 0
@@ -4776,8 +4776,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1001 &519577618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6556,8 +6556,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1001 &728336979
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7811,8 +7811,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!4 &918375038 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b89d96756568fa74196c2e1815a8b480, type: 3}
@@ -7867,8 +7867,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1 &930160417
 GameObject:
   m_ObjectHideFlags: 0
@@ -8775,8 +8775,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!4 &1034308370 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6329904756154921639, guid: def901ec25050d34b8ec5cffa35f653b, type: 3}
@@ -9403,8 +9403,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1001 &1132250510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11840,8 +11840,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1 &1430319250
 GameObject:
   m_ObjectHideFlags: 0
@@ -12193,8 +12193,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1 &1497382601
 GameObject:
   m_ObjectHideFlags: 0
@@ -13169,8 +13169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!4 &1585612508 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dea72d769487a6944ad4484429a8f330, type: 3}
@@ -13902,8 +13902,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1 &1663765038
 GameObject:
   m_ObjectHideFlags: 0
@@ -14224,8 +14224,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1001 &1714603607
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14977,8 +14977,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1001 &1834083012
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15100,8 +15100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1 &1839333430
 GameObject:
   m_ObjectHideFlags: 0
@@ -15253,7 +15253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0236a7aedbaaf0241aad08b6a4f695a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed_Timer: 60
+  speed_Timer: 180
   timeText: {fileID: 112963417}
   startTime: 10
   hoursDay: 24
@@ -16518,8 +16518,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!1 &1982026761
 GameObject:
   m_ObjectHideFlags: 0
@@ -16671,8 +16671,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 3091883457824837224, guid: caa0b010f84c42b46abd911a2f681022, type: 3}
-  minSpawnRate: 5
-  maxSpawnRate: 10
+  minSpawnRate: 7
+  maxSpawnRate: 15
 --- !u!4 &2003904115 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fe48c7085ab26444fa64bb99acdbea39, type: 3}
