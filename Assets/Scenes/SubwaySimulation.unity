@@ -15268,7 +15268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed_Timer: 180
   timeText: {fileID: 112963417}
-  startTime: 12
+  startTime: 9
   hoursDay: 24
   dayTimerNormalized: 0
   lightSource: {fileID: 705507996}
