@@ -7714,6 +7714,7 @@ GameObject:
   m_Component:
   - component: {fileID: 911549806}
   - component: {fileID: 911549807}
+  - component: {fileID: 911549808}
   m_Layer: 0
   m_Name: SubwayStation
   m_TagString: Untagged
@@ -7767,6 +7768,18 @@ MonoBehaviour:
   reception: {fileID: 20184840}
   graffitiTargets: {fileID: 574288155}
   graffitiSpots: {fileID: 1663765038}
+--- !u!114 &911549808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911549805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0c482e158b4684197fdb0def2e32bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &914965856
 GameObject:
   m_ObjectHideFlags: 0
@@ -15255,7 +15268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed_Timer: 180
   timeText: {fileID: 112963417}
-  startTime: 10
+  startTime: 0
   hoursDay: 24
   dayTimerNormalized: 0
   lightSource: {fileID: 705507996}

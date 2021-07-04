@@ -89,6 +89,7 @@ public class PassengerBehaviour : TrainUserBehaviour
                     assignedMusician.musicianSM.Fire("Thank");
                     hasThanked = false;
                 }
+
                 assignedMusician = null;
             });
 
@@ -104,6 +105,7 @@ public class PassengerBehaviour : TrainUserBehaviour
             {
                 if (Random.Range(0, 100) < 30 && assignedMusician.isPlaying)
                 {
+                    EmoteSpawner.spawner.SpawnEmote(gameObject, EmoteType.Money, 0.5f);
                     Vector3 a = assignedMusician.hat.transform.position;
                     Vector3 b = transform.position;
                     Vector3 ba = (b - a).normalized;
@@ -113,6 +115,7 @@ public class PassengerBehaviour : TrainUserBehaviour
                 }
                 else
                 {
+                    EmoteSpawner.spawner.SpawnEmote(gameObject, EmoteType.Thank, 0.5f);
                     passengerSM.Fire("KeepMoving");
                 }
             });

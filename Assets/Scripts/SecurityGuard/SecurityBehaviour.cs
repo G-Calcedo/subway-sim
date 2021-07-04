@@ -38,7 +38,7 @@ public class SecurityBehaviour : MonoBehaviour
 
         State chase = securitySM.CreateState("Chase",
             () =>
-            {
+            {             
                 //Debug.Log("Te pillo el guarda");
                 agent.speed = 12;
                 //CancelInvoke();
@@ -86,6 +86,11 @@ public class SecurityBehaviour : MonoBehaviour
                 graffiter.caught = true;
 
                 if (!(target is null)) target.OnDisappear -= StopChase;
+
+                if (!ReferenceEquals(target, graffiter))
+                {
+                    EmoteSpawner.spawner.SpawnEmote(gameObject, EmoteType.Angry, 1);
+                }
 
                 target = graffiter;
                 target.OnDisappear += StopChase;

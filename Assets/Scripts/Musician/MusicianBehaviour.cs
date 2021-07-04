@@ -60,6 +60,7 @@ public class MusicianBehaviour : TrainUserBehaviour
             {
                 transform.DORotate(assignedMusicianSpot.alignment, 0.1f);
                 InvokeRepeating(nameof(AtractPassengers), 0, 1.5f);
+                EmoteSpawner.spawner.SpawnEmote(gameObject, EmoteType.Music, 20);
             },
             () => ReturnValues.Succeed));
 
