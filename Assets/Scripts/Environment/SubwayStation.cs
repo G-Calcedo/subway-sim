@@ -172,6 +172,24 @@ public class SubwayStation : MonoBehaviour
         return null;
     }
 
+    public Vector3 FurthestGraffiterScape(Vector3 origin)
+    {
+        Vector3 spot = Vector3.zero;
+        float distance = 0;
+
+        foreach (GraffitiSpawner sp in _graffitiTargets)
+        {
+            float currentDistance = Vector3.Distance(origin, sp.transform.position);
+            if (currentDistance > distance)
+            {
+                spot = sp.transform.position;
+                distance = currentDistance;
+            }
+        }
+
+        return spot;
+    }
+
     public bool IsGraffitiSpotAvailable()
     {
         foreach (GraffitiSpot gs in _graffitiSpots)

@@ -9,6 +9,7 @@ TagManager:
   - Trash
   - Cleaner
   - SecurityGuard
+  - Graffiter
   layers:
   - Default
   - TransparentFX
