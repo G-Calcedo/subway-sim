@@ -28,9 +28,10 @@ public class GraffitiBehaviour : MonoBehaviour
         State scape = graffitiSM.CreateState("Scape",
             () =>
             {
-                Instantiate(graffiti,
+                Graffiti grf = Instantiate(graffiti,
                     assignedSpot.spot.transform.position,
                     assignedSpot.spot.transform.rotation);
+                grf.GetComponent<Trash>().spot = assignedSpot;
                 movement.SetDestination(SubwayStation.main.AssignRandomGraffitiTarget().transform.position);
             });
 

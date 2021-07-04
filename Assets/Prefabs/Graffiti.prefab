@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4129414666030710616}
   - component: {fileID: 6797639728675456126}
+  - component: {fileID: 5542380517866668773}
+  - component: {fileID: 9116153998714890620}
   m_Layer: 0
   m_Name: Graffiti
-  m_TagString: Untagged
+  m_TagString: Trash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,4 +46,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graffities:
-  - {fileID: 919132149155446097, guid: a5baf24e65a9eb443bb4041f43c2dcd5, type: 3}
+  - {fileID: 919132149155446097, guid: 0df0bb7f5248d314d9a042b7ce4b0da5, type: 3}
+  - {fileID: 919132149155446097, guid: a659585c23668ad449ca18a25ffb5cd9, type: 3}
+  - {fileID: 919132149155446097, guid: 12e3ff3a7fdea5746bd14a15dbfdfdd6, type: 3}
+--- !u!114 &5542380517866668773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4129414666030710617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89fa62a6bfc73214b9ae1bca64cbbe6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  found: 0
+  isGraffiti: 1
+--- !u!65 &9116153998714890620
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4129414666030710617}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}

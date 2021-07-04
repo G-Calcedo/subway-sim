@@ -6,7 +6,7 @@ using UnityEngine;
 public class CleanerBehaviour : MonoBehaviour
 {
     public GameObject sweeper_1, sweeper_2;
-    public GameObject currentTrash;
+    public Trash currentTrash;
 
     private StateMachineEngine cleanerSM;
     private RandomMovement randomMovement;
@@ -57,7 +57,11 @@ public class CleanerBehaviour : MonoBehaviour
             sweeper_1.SetActive(false);
             sweeper_2.SetActive(true);
             InvokeRepeating(nameof(Sweep), 0, 0.25f);
-            Destroy(currentTrash);
+            if (currentTrash.isGraffiti)
+            {
+                currentTrash.spot.inUse = false;
+            }
+            Destroy(currentTrash.gameObject);
             currentTrash = null;
         });
 
@@ -122,6 +126,6 @@ public class CleanerBehaviour : MonoBehaviour
         if (nearestTrash is null) return;
 
         nearestTrash.found = true;
-        currentTrash = nearestTrash.gameObject;
+        currentTrash = nearestTrash;
     }
 }
