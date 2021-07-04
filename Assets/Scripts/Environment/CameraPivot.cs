@@ -18,19 +18,19 @@ public class CameraPivot : MonoBehaviour
         camera = GetComponentInChildren<Camera>();
       
         positions[0] = new Vector3(0, 0, 0);
-        positions[1] = new Vector3(5.67f, -10.71f, -77.47f);
-        positions[2] = new Vector3(-11.3f, -0.25f, 1.55f);
-        positions[3] = new Vector3(37.5f, -9.2f, 1.55f);
+        positions[1] = new Vector3(-3.3f, -12.3f, -75f);
+        positions[2] = new Vector3(-9f, 0.7f, 2.2f);
+        positions[3] = new Vector3(53f, -15.7f, 1.25f);
 
         angles[0] = new Vector3(0, 0, 0);
-        angles[1] = new Vector3(-15.395f, -29.125f, -18.25f);
-        angles[2] = new Vector3(-16.7f, -11.343f, -14.666f);
-        angles[3] = new Vector3(-16.7f, 91f, -13.653f);
+        angles[1] = new Vector3(-18f, -27f, -19f);
+        angles[2] = new Vector3(-16f, -13.2f, -15.65f);
+        angles[3] = new Vector3(-15.5f, 85f, -16f);
 
         FOV[0] = 60f;
         FOV[1] = 15f;
-        FOV[2] = 7.5f;
-        FOV[3] = 26f;
+        FOV[2] = 10f;
+        FOV[3] = 22f;
     }
 
     private void Update()
